@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.0.0';
+var VERSION='1.1.0';
 var COMPONENT='yernar_big_collection_list';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v1';
@@ -160,6 +160,117 @@ C('8. DC: DCEU + Elseworlds',[
  G('Новый DCU — отдельная новая вселенная',[
   'Creature Commandos|2024|tv|Монстры-коммандос','Superman|2025|movie|Супермен','Peacemaker|2022|tv|Миротворец — сезон 2|2'
  ],'Новый DCU Джеймса Ганна не смешан с завершённым DCEU.')
+]),
+C('9. Alien & Predator — космический хоррор',[
+ G('Alien — основная сага + сериал',[
+  'Alien|1979|movie|Чужой','Aliens|1986|movie|Чужие','Alien 3|1992|movie|Чужой 3','Alien: Resurrection|1997|movie|Чужой 4: Воскрешение','Prometheus|2012|movie|Прометей','Alien: Covenant|2017|movie|Чужой: Завет','Alien: Romulus|2024|movie|Чужой: Ромул','Alien: Earth|2025|tv|Чужой: Земля'
+ ],'Показан релизный порядок: он лучше сохраняет открытия франшизы.'),
+ G('Predator — полная линейка',[
+  'Predator|1987|movie|Хищник','Predator 2|1990|movie|Хищник 2','Predators|2010|movie|Хищники','The Predator|2018|movie|Хищник','Prey|2022|movie|Добыча','Predator: Killer of Killers|2025|movie|Хищник: Убийца убийц','Predator: Badlands|2025|movie|Хищник: Планета смерти'
+ ]),
+ G('Alien vs. Predator — кроссоверы',[
+  'AVP: Alien vs. Predator|2004|movie|Чужой против Хищника','Aliens vs. Predator: Requiem|2007|movie|Чужие против Хищника: Реквием'
+ ])
+]),
+C('10. Terminator — полная вселенная',[
+ G('Терминатор — все фильмы',[
+  'The Terminator|1984|movie|Терминатор','Terminator 2: Judgment Day|1991|movie|Терминатор 2: Судный день','Terminator 3: Rise of the Machines|2003|movie|Терминатор 3: Восстание машин','Terminator Salvation|2009|movie|Терминатор: Да придёт спаситель','Terminator Genisys|2015|movie|Терминатор: Генезис','Terminator: Dark Fate|2019|movie|Терминатор: Тёмные судьбы'
+ ]),
+ G('Терминатор — сериалы',[
+  'Terminator: The Sarah Connor Chronicles|2008|tv|Терминатор: Битва за будущее','Terminator Zero|2024|tv|Терминатор Зеро'
+ ],'Сериалы являются альтернативными ветками и вынесены отдельно.')
+]),
+C('11. Matrix — полная сага',[
+ G('Матрица — порядок просмотра',[
+  'The Matrix|1999|movie|Матрица','The Matrix Reloaded|2003|movie|Матрица: Перезагрузка','The Animatrix|2003|movie|Аниматрица','The Matrix Revolutions|2003|movie|Матрица: Революция','The Matrix Resurrections|2021|movie|Матрица: Воскрешение'
+ ])
+]),
+C('12. Jurassic Park / Jurassic World',[
+ G('Jurassic — все полнометражные фильмы',[
+  'Jurassic Park|1993|movie|Парк юрского периода','The Lost World: Jurassic Park|1997|movie|Парк юрского периода 2: Затерянный мир','Jurassic Park III|2001|movie|Парк юрского периода 3','Jurassic World|2015|movie|Мир юрского периода','Jurassic World: Fallen Kingdom|2018|movie|Мир юрского периода 2','Jurassic World Dominion|2022|movie|Мир юрского периода: Господство','Jurassic World Rebirth|2025|movie|Мир юрского периода: Возрождение'
+ ]),
+ G('Jurassic — сериалы',[
+  'Jurassic World: Camp Cretaceous|2020|tv|Мир юрского периода: Лагерь Мелового периода','Jurassic World: Chaos Theory|2024|tv|Мир юрского периода: Теория хаоса'
+ ])
+]),
+C('13. Wizarding World — Harry Potter + Fantastic Beasts',[
+ G('Wizarding World — сюжетная хронология',[
+  'Fantastic Beasts and Where to Find Them|2016|movie|Фантастические твари и где они обитают','Fantastic Beasts: The Crimes of Grindelwald|2018|movie|Фантастические твари: Преступления Грин-де-Вальда','Fantastic Beasts: The Secrets of Dumbledore|2022|movie|Фантастические твари: Тайны Дамблдора','Harry Potter and the Philosopher\'s Stone|2001|movie|Гарри Поттер и философский камень','Harry Potter and the Chamber of Secrets|2002|movie|Гарри Поттер и Тайная комната','Harry Potter and the Prisoner of Azkaban|2004|movie|Гарри Поттер и узник Азкабана','Harry Potter and the Goblet of Fire|2005|movie|Гарри Поттер и Кубок огня','Harry Potter and the Order of the Phoenix|2007|movie|Гарри Поттер и Орден Феникса','Harry Potter and the Half-Blood Prince|2009|movie|Гарри Поттер и Принц-полукровка','Harry Potter and the Deathly Hallows: Part 1|2010|movie|Гарри Поттер и Дары Смерти: Часть I','Harry Potter and the Deathly Hallows: Part 2|2011|movie|Гарри Поттер и Дары Смерти: Часть II'
+ ]),
+ G('Harry Potter — 8 фильмов отдельно',[
+  'Harry Potter and the Philosopher\'s Stone|2001|movie|Гарри Поттер и философский камень','Harry Potter and the Chamber of Secrets|2002|movie|Гарри Поттер и Тайная комната','Harry Potter and the Prisoner of Azkaban|2004|movie|Гарри Поттер и узник Азкабана','Harry Potter and the Goblet of Fire|2005|movie|Гарри Поттер и Кубок огня','Harry Potter and the Order of the Phoenix|2007|movie|Гарри Поттер и Орден Феникса','Harry Potter and the Half-Blood Prince|2009|movie|Гарри Поттер и Принц-полукровка','Harry Potter and the Deathly Hallows: Part 1|2010|movie|Дары Смерти: Часть I','Harry Potter and the Deathly Hallows: Part 2|2011|movie|Дары Смерти: Часть II'
+ ])
+]),
+C('14. Middle-earth — Властелин колец и Хоббит',[
+ G('Средиземье — сюжетный порядок фильмов',[
+  'The Lord of the Rings: The War of the Rohirrim|2024|movie|Властелин колец: Война рохирримов','The Hobbit: An Unexpected Journey|2012|movie|Хоббит: Нежданное путешествие','The Hobbit: The Desolation of Smaug|2013|movie|Хоббит: Пустошь Смауга','The Hobbit: The Battle of the Five Armies|2014|movie|Хоббит: Битва пяти воинств','The Lord of the Rings: The Fellowship of the Ring|2001|movie|Властелин колец: Братство Кольца','The Lord of the Rings: The Two Towers|2002|movie|Властелин колец: Две крепости','The Lord of the Rings: The Return of the King|2003|movie|Властелин колец: Возвращение короля'
+ ]),
+ G('Кольца власти — отдельная телевизионная адаптация',[
+  'The Lord of the Rings: The Rings of Power|2022|tv|Властелин колец: Кольца власти'
+ ],'События происходят во Вторую эпоху, задолго до фильмов, но сериал — отдельная телевизионная адаптация.')
+]),
+C('15. John Wick Universe',[
+ G('John Wick — сюжетный порядок',[
+  'The Continental: From the World of John Wick|2023|tv|Континенталь — приквел','John Wick|2014|movie|Джон Уик','John Wick: Chapter 2|2017|movie|Джон Уик 2','John Wick: Chapter 3 - Parabellum|2019|movie|Джон Уик 3','Ballerina|2025|movie|Балерина','John Wick: Chapter 4|2023|movie|Джон Уик 4'
+ ],'Балерина происходит между третьим и четвёртым фильмами.')
+]),
+C('16. Mission: Impossible',[
+ G('Миссия невыполнима — все фильмы',[
+  'Mission: Impossible|1996|movie|Миссия невыполнима','Mission: Impossible II|2000|movie|Миссия невыполнима 2','Mission: Impossible III|2006|movie|Миссия невыполнима 3','Mission: Impossible - Ghost Protocol|2011|movie|Протокол Фантом','Mission: Impossible - Rogue Nation|2015|movie|Племя изгоев','Mission: Impossible - Fallout|2018|movie|Последствия','Mission: Impossible - Dead Reckoning Part One|2023|movie|Смертельная расплата. Часть первая','Mission: Impossible - The Final Reckoning|2025|movie|Финальная расплата'
+ ])
+]),
+C('17. Fast & Furious',[
+ G('Форсаж — сюжетная хронология',[
+  'The Fast and the Furious|2001|movie|Форсаж','2 Fast 2 Furious|2003|movie|Двойной форсаж','Fast & Furious|2009|movie|Форсаж 4','Fast Five|2011|movie|Форсаж 5','Fast & Furious 6|2013|movie|Форсаж 6','The Fast and the Furious: Tokyo Drift|2006|movie|Тройной форсаж: Токийский дрифт','Furious 7|2015|movie|Форсаж 7','The Fate of the Furious|2017|movie|Форсаж 8','Fast & Furious Presents: Hobbs & Shaw|2019|movie|Хоббс и Шоу','F9|2021|movie|Форсаж 9','Fast X|2023|movie|Форсаж 10'
+ ])
+]),
+C('18. Planet of the Apes',[
+ G('Классическая сага 1968–1973',[
+  'Planet of the Apes|1968|movie|Планета обезьян','Beneath the Planet of the Apes|1970|movie|Под планетой обезьян','Escape from the Planet of the Apes|1971|movie|Бегство с планеты обезьян','Conquest of the Planet of the Apes|1972|movie|Завоевание планеты обезьян','Battle for the Planet of the Apes|1973|movie|Битва за планету обезьян'
+ ]),
+ G('Современная сага Цезаря и Ноа',[
+  'Rise of the Planet of the Apes|2011|movie|Восстание планеты обезьян','Dawn of the Planet of the Apes|2014|movie|Планета обезьян: Революция','War for the Planet of the Apes|2017|movie|Планета обезьян: Война','Kingdom of the Planet of the Apes|2024|movie|Планета обезьян: Новое царство'
+ ]),
+ G('Отдельный ремейк',[
+  'Planet of the Apes|2001|movie|Планета обезьян — Тим Бёртон'
+ ])
+]),
+C('19. The Conjuring Universe',[
+ G('Заклятие — хронология событий',[
+  'The Nun|2018|movie|Проклятие монахини','Annabelle: Creation|2017|movie|Проклятие Аннабель: Зарождение зла','The Nun II|2023|movie|Проклятие монахини 2','Annabelle|2014|movie|Проклятие Аннабель','The Conjuring|2013|movie|Заклятие','Annabelle Comes Home|2019|movie|Проклятие Аннабель 3','The Conjuring 2|2016|movie|Заклятие 2','The Conjuring: The Devil Made Me Do It|2021|movie|Заклятие 3: По воле дьявола','The Conjuring: Last Rites|2025|movie|Заклятие 4: Последний обряд'
+ ]),
+ G('Связанный, но не основной канон',[
+  'The Curse of La Llorona|2019|movie|Проклятие плачущей'
+ ],'Связи с персонажами есть, но Warner считает Last Rites девятым фильмом основной киновселенной, поэтому La Llorona вынесена отдельно.')
+]),
+C('20. Франшизы целиком — быстрый каталог',[
+ G('Назад в будущее',[
+  'Back to the Future|1985|movie|Назад в будущее','Back to the Future Part II|1989|movie|Назад в будущее 2','Back to the Future Part III|1990|movie|Назад в будущее 3'
+ ]),
+ G('Пираты Карибского моря',[
+  'Pirates of the Caribbean: The Curse of the Black Pearl|2003|movie|Проклятие Чёрной жемчужины','Pirates of the Caribbean: Dead Man\'s Chest|2006|movie|Сундук мертвеца','Pirates of the Caribbean: At World\'s End|2007|movie|На краю света','Pirates of the Caribbean: On Stranger Tides|2011|movie|На странных берегах','Pirates of the Caribbean: Dead Men Tell No Tales|2017|movie|Мертвецы не рассказывают сказки'
+ ]),
+ G('Индиана Джонс — сюжетный порядок',[
+  'Indiana Jones and the Temple of Doom|1984|movie|Индиана Джонс и храм судьбы','Raiders of the Lost Ark|1981|movie|В поисках утраченного ковчега','Indiana Jones and the Last Crusade|1989|movie|Индиана Джонс и последний крестовый поход','Indiana Jones and the Kingdom of the Crystal Skull|2008|movie|Королевство хрустального черепа','Indiana Jones and the Dial of Destiny|2023|movie|Индиана Джонс и Колесо судьбы'
+ ]),
+ G('Джейсон Борн',[
+  'The Bourne Identity|2002|movie|Идентификация Борна','The Bourne Supremacy|2004|movie|Превосходство Борна','The Bourne Ultimatum|2007|movie|Ультиматум Борна','The Bourne Legacy|2012|movie|Эволюция Борна','Jason Bourne|2016|movie|Джейсон Борн'
+ ]),
+ G('Рэмбо',[
+  'First Blood|1982|movie|Рэмбо: Первая кровь','Rambo: First Blood Part II|1985|movie|Рэмбо: Первая кровь 2','Rambo III|1988|movie|Рэмбо 3','Rambo|2008|movie|Рэмбо IV','Rambo: Last Blood|2019|movie|Рэмбо: Последняя кровь'
+ ]),
+ G('Rocky + Creed',[
+  'Rocky|1976|movie|Рокки','Rocky II|1979|movie|Рокки 2','Rocky III|1982|movie|Рокки 3','Rocky IV|1985|movie|Рокки 4','Rocky V|1990|movie|Рокки 5','Rocky Balboa|2006|movie|Рокки Бальбоа','Creed|2015|movie|Крид: Наследие Рокки','Creed II|2018|movie|Крид 2','Creed III|2023|movie|Крид 3'
+ ]),
+ G('Крепкий орешек',[
+  'Die Hard|1988|movie|Крепкий орешек','Die Hard 2|1990|movie|Крепкий орешек 2','Die Hard with a Vengeance|1995|movie|Крепкий орешек 3: Возмездие','Live Free or Die Hard|2007|movie|Крепкий орешек 4.0','A Good Day to Die Hard|2013|movie|Крепкий орешек: Хороший день, чтобы умереть'
+ ]),
+ G('Transformers — игровая линейка',[
+  'Transformers|2007|movie|Трансформеры','Transformers: Revenge of the Fallen|2009|movie|Месть падших','Transformers: Dark of the Moon|2011|movie|Тёмная сторона Луны','Transformers: Age of Extinction|2014|movie|Эпоха истребления','Transformers: The Last Knight|2017|movie|Последний рыцарь','Bumblebee|2018|movie|Бамблби','Transformers: Rise of the Beasts|2023|movie|Восхождение Звероботов'
+ ]),
+ G('TRON',[
+  'TRON|1982|movie|Трон','TRON: Legacy|2010|movie|Трон: Наследие','Tron: Ares|2025|movie|Трон: Арес'
+ ])
 ])
 ];
 
