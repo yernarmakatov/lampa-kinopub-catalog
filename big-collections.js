@@ -550,9 +550,53 @@ function decorateDynamicActor(r,num,g){
   (x.overview?'\\n\\n'+x.overview:'');
  return x;
 }
+function decorateDynamicTmdb(r,num,g){
+ var x=JSON.parse(JSON.stringify(r));
+ x.source='tmdb';
+
+ var base=x.name||x.title||x.original_name||x.original_title||'Без названия';
+ var p=(num<10?'00':num<100?'0':'')+num;
+ var label=p+' · '+base;
+
+ if(g.media==='tv'){
+  x.name=label;
+  if(x.title)delete x.title;
+ }else{
+  x.title=label;
+  if(x.name)delete x.name;
+ }
+
+ x.overview=(g.label||'ПОДБОРКА')+' · обновляется автоматически'+
+  (x.overview?'\\n\\n'+x.overview:'');
+ return x;
+}
+function tmdbDynamic(g,page,ok,err){
+ try{
+  var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+  if(!src||!src.list)return err&&err();
+
+  src.list({url:g.tmdb_url,page:page},function(d){
+   var rows=(d&&d.results)||[];
+   var start=(page-1)*20;
+
+   ok({
+    secuses:true,
+    page:page,
+    total_pages:g.pages||5,
+    total_results:(g.pages||5)*20,
+    results:rows.map(function(r,i){return decorateDynamicTmdb(r,start+i+1,g)})
+   });
+  },err);
+ }catch(e){if(err)err()}
+}
 function fetchList(o,ok,err){
  var cat=CATS[o.cat],g=cat&&cat.groups[o.group];if(!g)return err&&err();
  var page=Math.max(1,parseInt(o.page||1,10));
+
+ if(g.dynamic==='tmdb'){
+  if(page>(g.pages||5))return ok({results:[],page:page,total_pages:g.pages||5});
+  return tmdbDynamic(g,page,ok,err);
+ }
 
  if(g.dynamic==='actor'){
   return actorCredits(g,function(all){
@@ -748,6 +792,7 @@ function hubTitle(kind){
   actors:'АКТЁРЫ',
   genres:'ЖАНРЫ И ТЕМЫ',
   series:'СЕРИАЛЫ',
+  korea:'КОРЕЯ',
   horror:'ХОРРОР',
   scifi:'SCI-FI',
   action:'ЭКШЕН'
@@ -770,6 +815,7 @@ var HOME_TILES=[
  {id:'actors',ico:'🎭',title:'Актёры',sub:'Фильмографии по годам'},
  {id:'genres',ico:'🎬',title:'Жанры',sub:'Триллеры, sci-fi, выживание'},
  {id:'series',ico:'📺',title:'Сериалы',sub:'Саги и мини-сериалы'},
+ {id:'korea',ico:'🇰🇷',title:'Корея',sub:'K-Drama и корейское кино'},
  {id:'horror',ico:'👻',title:'Хоррор',sub:'Культовые вселенные'},
  {id:'scifi',ico:'🚀',title:'Sci-Fi',sub:'Космос, время, ИИ'},
  {id:'action',ico:'⚡',title:'Экшен',sub:'Боевики и агенты'},
@@ -894,12 +940,32 @@ function hubRowSpecs(kind){
  ];
 
  if(kind==='series') return [
+  {title:'ФБР и спецрасследования',refs:refsFromCategory(catIndexStarts('37.'))},
+  {title:'TOP 100 сериалов сейчас',refs:refsFromCategory(catIndexStarts('38.'))},
+  {title:'Корейские сериалы',refs:cleanRefs([
+   groupRef('39.','🇰🇷 K-Drama — популярные сейчас','K-Drama — популярные сейчас'),
+   groupRef('39.','⭐ K-Drama — лучшие по рейтингу','K-Drama — лучшие по рейтингу'),
+   groupRef('39.','K-Drama — проверенная','K-Drama — классика и хиты')
+  ])},
   {title:'Зомби и заражения',refs:cleanRefs([
    groupRef('2.','The Walking Dead Universe','The Walking Dead Universe'),
    groupRef('2.','Другие сериалы','Другие сериалы о заражениях')
   ])},
   {title:'Мини-сериалы на выходные',refs:weekendRefs()},
   {title:'Фантастика и большие вселенные',refs:seriesRefs()}
+ ];
+
+ if(kind==='korea') return [
+  {title:'Корейские сериалы',refs:cleanRefs([
+   groupRef('39.','🇰🇷 K-Drama — популярные сейчас','K-Drama — популярные сейчас'),
+   groupRef('39.','⭐ K-Drama — лучшие по рейтингу','K-Drama — лучшие по рейтингу'),
+   groupRef('39.','K-Drama — проверенная','K-Drama — классика и хиты')
+  ])},
+  {title:'Корейское кино',refs:cleanRefs([
+   groupRef('39.','🎬 Корейские фильмы — популярные сейчас','Корейские фильмы — популярные сейчас'),
+   groupRef('39.','🏆 Корейские фильмы — лучшие по рейтингу','Корейские фильмы — лучшие по рейтингу'),
+   groupRef('39.','Корейские триллеры','Корейские триллеры и криминал')
+  ])}
  ];
 
  if(kind==='horror') return [
@@ -985,6 +1051,23 @@ function groupPreview(ref,done){
 
  if(g.dynamic==='actor')return actorPreview(ref,g,done);
 
+ if(g.dynamic==='tmdb'){
+  try{
+   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+   if(!src||!src.list)return done(fallbackPreview(ref.title||g.title,ref));
+   src.list({url:g.tmdb_url,page:1},function(d){
+    var r=d&&d.results&&d.results[0];
+    if(!r)return done(fallbackPreview(ref.title||g.title,ref));
+    var x=cloneCard(r);
+    x.source='tmdb';
+    setPreviewLabel(x,ref.title||g.title);
+    x.bc_action='group';x.bc_ci=ref.ci;x.bc_gi=ref.gi;
+    done(x);
+   },function(){done(fallbackPreview(ref.title||g.title,ref))});
+  }catch(e){done(fallbackPreview(ref.title||g.title,ref))}
+  return;
+ }
+
  var e=(g.items||[])[0];
  if(!e)return done(fallbackPreview(ref.title||g.title,ref));
 
@@ -1051,7 +1134,8 @@ function hubPreviewRef(id){
   franchises:groupRef('15.','John Wick','Франшизы'),
   actors:(actorRefs()[0]||null),
   genres:groupRef('3.','Петли времени','Жанры'),
-  series:groupRef('2.','The Walking Dead Universe','Сериалы'),
+  series:groupRef('38.','🔥 TOP 100 сериалов','Сериалы'),
+  korea:groupRef('39.','🇰🇷 K-Drama — популярные сейчас','Корея'),
   horror:groupRef('19.','Заклятие','Хоррор'),
   scifi:groupRef('3.','Бегущий по лезвию','Sci-Fi'),
   action:groupRef('16.','Миссия','Экшен'),
@@ -1090,6 +1174,11 @@ function homeRowSpecs(){
   {title:'Легенды экшена',refs:HOME_SHELVES[1].items},
   {title:'Хоррор-вселенные',refs:HOME_SHELVES[2].items},
   {title:'Умный Sci-Fi',refs:HOME_SHELVES[3].items},
+  {title:'Сериалы сейчас',refs:cleanRefs([
+   groupRef('38.','🔥 TOP 100 сериалов','TOP 100 сериалов сейчас'),
+   groupRef('37.','FBI Universe','FBI Universe'),
+   groupRef('39.','🇰🇷 K-Drama — популярные сейчас','K-Drama сейчас')
+  ])},
   {title:'На одни выходные',refs:HOME_SHELVES[4].items}
  ];
 }
