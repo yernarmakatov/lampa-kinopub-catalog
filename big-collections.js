@@ -3,9 +3,10 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.4.1';
+var VERSION='1.5.0';
 var COMPONENT='yernar_big_collection_list';
 var HOME_COMPONENT='yernar_big_collections_home';
+var HUB_COMPONENT='yernar_big_collections_hub';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
@@ -741,17 +742,27 @@ function weekendRefs(){
  ]);
 }
 
+function hubTitle(kind){
+ var map={
+  franchises:'ФРАНШИЗЫ',
+  actors:'АКТЁРЫ',
+  genres:'ЖАНРЫ И ТЕМЫ',
+  series:'СЕРИАЛЫ',
+  horror:'ХОРРОР',
+  scifi:'SCI-FI',
+  action:'ЭКШЕН'
+ };
+ return map[kind]||'ПОДБОРКИ';
+}
 function showHub(kind){
  if(kind==='all') return showMain();
- if(kind==='actors') return showGroupRefs('АКТЁРЫ — фильмографии',actorRefs());
- if(kind==='franchises') return showCategoryRefs('ФРАНШИЗЫ',franchiseCategoryRefs());
- if(kind==='genres') return showCategoryRefs('ЖАНРЫ И ТЕМЫ',[
-  {ci:0},{ci:1},{ci:2},{ci:3},{ci:4}
- ]);
- if(kind==='series') return showGroupRefs('СЕРИАЛЫ',seriesRefs());
- if(kind==='horror') return showGroupRefs('ХОРРОР-ВСЕЛЕННЫЕ',horrorRefs());
- if(kind==='scifi') return showGroupRefs('SCI-FI',scifiRefs());
- if(kind==='action') return showGroupRefs('ЭКШЕН',actionRefs());
+ Lampa.Activity.push({
+  url:'',
+  title:hubTitle(kind),
+  component:HUB_COMPONENT,
+  hub_kind:kind,
+  page:1
+ });
 }
 
 var HOME_TILES=[
@@ -805,180 +816,343 @@ var HOME_SHELVES=[
  }
 ];
 
-function injectHomeStyles(){
- if($('#big-collections-home-style').length)return;
- var css=''
-  +'.bc-home{padding:1.2em 2em 5em;box-sizing:border-box;}'
-  +'.bc-hero{padding:.6em 0 1.1em;}'
-  +'.bc-hero__title{font-size:2.15em;font-weight:700;line-height:1.05;}'
-  +'.bc-hero__sub{font-size:1em;opacity:.62;margin-top:.45em;}'
-  +'.bc-section-title{font-size:1.28em;font-weight:650;margin:1.15em 0 .65em;}'
-  +'.bc-hubs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7em;}'
-  +'.bc-hub{min-height:6.2em;border-radius:.75em;padding:1em 1.05em;box-sizing:border-box;background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.055));display:flex;flex-direction:column;justify-content:flex-end;transition:.18s transform,.18s background;}'
-  +'.bc-hub__ico{font-size:1.65em;line-height:1;margin-bottom:auto;}'
-  +'.bc-hub__title{font-size:1.15em;font-weight:700;}'
-  +'.bc-hub__sub{font-size:.77em;opacity:.58;margin-top:.25em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}'
-  +'.bc-shelf{margin-top:1.45em;}'
-  +'.bc-shelf__row{display:flex;gap:.7em;overflow-x:auto;overflow-y:hidden;padding:.08em .08em .55em;scrollbar-width:none;}'
-  +'.bc-shelf__row::-webkit-scrollbar{display:none;}'
-  +'.bc-card{width:14.2em;min-width:14.2em;height:5.1em;border-radius:.72em;padding:.9em 1em;box-sizing:border-box;background:rgba(255,255,255,.075);display:flex;align-items:flex-end;transition:.18s transform,.18s background;}'
-  +'.bc-card__title{font-size:1em;font-weight:650;line-height:1.15;}'
-  +'.bc-hub.focus,.bc-card.focus,.bc-hub.hover,.bc-card.hover{background:rgba(255,255,255,.23);transform:scale(1.035);}'
-  +'@media(max-width:900px){.bc-hubs{grid-template-columns:repeat(3,minmax(0,1fr));}.bc-home{padding-left:1.2em;padding-right:1.2em;}}';
- $('<style id="big-collections-home-style">'+css+'</style>').appendTo('head');
+
+function titleClean(s){
+ return String(s||'').replace(/^\d+\.\s*/,'');
+}
+
+function refsFromCategory(ci){
+ var cat=CATS[ci];
+ if(!cat)return[];
+ return (cat.groups||[]).map(function(g,gi){
+  return {ci:ci,gi:gi,title:g.title};
+ });
+}
+
+function pickActorRefs(names){
+ var all=actorRefs(),out=[];
+ names.forEach(function(name){
+  for(var i=0;i<all.length;i++){
+   if(all[i].title===name){out.push(all[i]);break}
+  }
+ });
+ return out;
+}
+
+function fantasyAdventureRefs(){
+ return cleanRefs([
+  groupRef('13.','Wizarding World','Wizarding World'),
+  groupRef('14.','Средиземье','Middle-earth'),
+  groupRef('6.','MonsterVerse','MonsterVerse'),
+  groupRef('7.','Полная основная','Star Wars'),
+  groupRef('8.','DCEU','DC'),
+  groupRef('12.','Jurassic — все','Jurassic'),
+  groupRef('18.','Современная сага','Planet of the Apes'),
+  groupRef('20.','Пираты','Пираты Карибского моря'),
+  groupRef('20.','Transformers','Transformers')
+ ]);
+}
+
+function classicFranchiseRefs(){
+ return cleanRefs([
+  groupRef('20.','Назад в будущее','Назад в будущее'),
+  groupRef('30.','Крёстный отец','Крёстный отец'),
+  groupRef('31.','Ганнибал — фильмы','Hannibal Lecter'),
+  groupRef('32.','James Bond','James Bond'),
+  groupRef('10.','Терминатор — все фильмы','Terminator'),
+  groupRef('11.','Матрица','Matrix')
+ ]);
+}
+
+function hubRowSpecs(kind){
+ if(kind==='franchises') return [
+  {title:'Экшен-франшизы',refs:actionRefs()},
+  {title:'Хоррор-франшизы',refs:horrorRefs()},
+  {title:'Sci-Fi вселенные',refs:scifiRefs()},
+  {title:'Фэнтези и большие вселенные',refs:fantasyAdventureRefs()},
+  {title:'Классика франшиз',refs:classicFranchiseRefs()}
+ ];
+
+ if(kind==='actors') return [
+  {title:'Боевые искусства',refs:pickActorRefs([
+   'Джеки Чан','Джет Ли','Донни Йен','Тони Джа','Ико Увайс','Брюс Ли','Чоу Юнь-Фат','Мишель Йео','Марк Дакаскос','Скотт Эдкинс'
+  ])},
+  {title:'Легенды 80–90-х',refs:pickActorRefs([
+   'Арнольд Шварценеггер','Жан-Клод Ван Дамм','Брюс Уиллис','Сильвестр Сталлоне','Дольф Лундгрен','Стивен Сигал','Чак Норрис','Мэл Гибсон','Клинт Иствуд','Уэсли Снайпс'
+  ])},
+  {title:'Современные звёзды экшена',refs:pickActorRefs([
+   'Джейсон Стэйтем','Киану Ривз','Дуэйн «Скала» Джонсон','Лиам Нисон','Том Круз','Вин Дизель','Джерард Батлер','Марк Уолберг','Дензел Вашингтон','Сэмюэл Л. Джексон','Николас Кейдж','Харрисон Форд','Уилл Смит'
+  ])}
+ ];
+
+ if(kind==='genres') return [
+  {title:titleClean(CATS[0].title),refs:refsFromCategory(0)},
+  {title:titleClean(CATS[1].title),refs:refsFromCategory(1)},
+  {title:titleClean(CATS[2].title),refs:refsFromCategory(2)},
+  {title:titleClean(CATS[3].title),refs:refsFromCategory(3)},
+  {title:titleClean(CATS[4].title),refs:refsFromCategory(4)}
+ ];
+
+ if(kind==='series') return [
+  {title:'Зомби и заражения',refs:cleanRefs([
+   groupRef('2.','The Walking Dead Universe','The Walking Dead Universe'),
+   groupRef('2.','Другие сериалы','Другие сериалы о заражениях')
+  ])},
+  {title:'Мини-сериалы на выходные',refs:weekendRefs()},
+  {title:'Фантастика и большие вселенные',refs:seriesRefs()}
+ ];
+
+ if(kind==='horror') return [
+  {title:'Хоррор-вселенные',refs:horrorRefs()},
+  {title:'Зомби и заражение',refs:refsFromCategory(1)}
+ ];
+
+ if(kind==='scifi') return [
+  {title:'Умный Sci-Fi',refs:scifiRefs()},
+  {title:'Большие фантастические вселенные',refs:cleanRefs([
+   groupRef('9.','Alien —','Alien'),
+   groupRef('10.','Терминатор — все фильмы','Terminator'),
+   groupRef('11.','Матрица','Matrix'),
+   groupRef('18.','Современная сага','Planet of the Apes'),
+   groupRef('6.','MonsterVerse','MonsterVerse')
+  ])}
+ ];
+
+ if(kind==='action') return [
+  {title:'Экшен-франшизы',refs:actionRefs()},
+  {title:'Боевые искусства',refs:pickActorRefs([
+   'Джеки Чан','Джет Ли','Донни Йен','Жан-Клод Ван Дамм','Тони Джа','Ико Увайс','Скотт Эдкинс'
+  ])}
+ ];
+
+ return [];
+}
+
+function cloneCard(x){
+ try{return JSON.parse(JSON.stringify(x))}
+ catch(e){var y={};for(var k in x)y[k]=x[k];return y}
+}
+
+function setPreviewLabel(card,label){
+ if(card.name){
+  card.name=label;
+  if(card.title)delete card.title;
+ }else{
+  card.title=label;
+  if(card.name)delete card.name;
+ }
+ return card;
+}
+
+function fallbackPreview(label,ref){
+ return {
+  id:'bc_'+String(ref&&ref.ci||0)+'_'+String(ref&&ref.gi||0)+'_'+norm(label),
+  title:label,
+  source:'tmdb',
+  poster:'./img/img_broken.svg',
+  bc_action:'group',
+  bc_ci:ref&&ref.ci,
+  bc_gi:ref&&ref.gi
+ };
+}
+
+function actorPreview(ref,g,done){
+ try{
+  var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+  if(!src||!src.list)return done(fallbackPreview(ref.title,ref));
+
+  resolveActorId(g,src,function(personId){
+   src.list({url:'person/'+personId,page:1},function(p){
+    if(!p||!p.id)return done(fallbackPreview(ref.title,ref));
+    done({
+     id:p.id,
+     title:ref.title||g.actor_ru||g.actor,
+     profile_path:p.profile_path||'',
+     source:'tmdb',
+     gender:p.gender,
+     bc_action:'group',
+     bc_ci:ref.ci,
+     bc_gi:ref.gi
+    });
+   },function(){done(fallbackPreview(ref.title,ref))});
+  },function(){done(fallbackPreview(ref.title,ref))});
+ }catch(e){done(fallbackPreview(ref.title,ref))}
+}
+
+function groupPreview(ref,done){
+ var cat=CATS[ref.ci],g=cat&&cat.groups[ref.gi];
+ if(!g)return done(fallbackPreview(ref.title||'Подборка',ref));
+
+ if(g.dynamic==='actor')return actorPreview(ref,g,done);
+
+ var e=(g.items||[])[0];
+ if(!e)return done(fallbackPreview(ref.title||g.title,ref));
+
+ search(e,e.type==='tv'?'tv':'movie',function(r){
+  if(!r)return done(fallbackPreview(ref.title||g.title,ref));
+
+  var x=cloneCard(r);
+  x.source='tmdb';
+  setPreviewLabel(x,ref.title||g.title);
+  x.bc_action='group';
+  x.bc_ci=ref.ci;
+  x.bc_gi=ref.gi;
+  done(x);
+ });
+}
+
+function mapPreviews(refs,done){
+ refs=refs||[];
+ if(!refs.length)return done([]);
+
+ var out=new Array(refs.length),next=0,active=0,finished=0,LIMIT=5;
+
+ function pump(){
+  while(active<LIMIT&&next<refs.length){
+   (function(i){
+    active++;next++;
+    groupPreview(refs[i],function(card){
+     out[i]=card;
+     active--;finished++;
+     if(finished===refs.length)done(out.filter(Boolean));
+     else pump();
+    });
+   })(next);
+  }
+ }
+ pump();
+}
+
+function buildRows(specs,done){
+ specs=specs||[];
+ var rows=new Array(specs.length),next=0;
+
+ function step(){
+  if(next>=specs.length)return done(rows.filter(Boolean));
+  (function(i){
+   var spec=specs[i];
+   mapPreviews(spec.refs,function(cards){
+    rows[i]={
+     title:spec.title,
+     results:cards,
+     nomore:true,
+     bc_native:true
+    };
+    next++;
+    step();
+   });
+  })(next);
+ }
+ step();
+}
+
+function hubPreviewRef(id){
+ var map={
+  franchises:groupRef('15.','John Wick','Франшизы'),
+  actors:(actorRefs()[0]||null),
+  genres:groupRef('3.','Петли времени','Жанры'),
+  series:groupRef('2.','The Walking Dead Universe','Сериалы'),
+  horror:groupRef('19.','Заклятие','Хоррор'),
+  scifi:groupRef('3.','Бегущий по лезвию','Sci-Fi'),
+  action:groupRef('16.','Миссия','Экшен'),
+  all:groupRef('13.','Wizarding World','Все подборки')
+ };
+ return map[id]||null;
+}
+
+function buildHubCards(done){
+ var tiles=HOME_TILES||[],out=new Array(tiles.length),next=0;
+
+ function step(){
+  if(next>=tiles.length)return done(out.filter(Boolean));
+  var tile=tiles[next],ref=hubPreviewRef(tile.id),idx=next;
+  next++;
+
+  if(!ref){
+   out[idx]={id:'hub_'+tile.id,title:tile.title,source:'tmdb',poster:'./img/img_broken.svg',bc_action:'hub',bc_hub:tile.id};
+   return step();
+  }
+
+  groupPreview(ref,function(card){
+   setPreviewLabel(card,tile.title);
+   card.bc_action='hub';
+   card.bc_hub=tile.id;
+   out[idx]=card;
+   step();
+  });
+ }
+ step();
+}
+
+function homeRowSpecs(){
+ return [
+  {title:'Популярные франшизы',refs:HOME_SHELVES[0].items},
+  {title:'Легенды экшена',refs:HOME_SHELVES[1].items},
+  {title:'Хоррор-вселенные',refs:HOME_SHELVES[2].items},
+  {title:'Умный Sci-Fi',refs:HOME_SHELVES[3].items},
+  {title:'На одни выходные',refs:HOME_SHELVES[4].items}
+ ];
+}
+
+function nativeRoute(card){
+ if(!card)return;
+ if(card.bc_action==='hub')return showHub(card.bc_hub);
+ if(card.bc_action==='group')return openGroup(parseInt(card.bc_ci,10),parseInt(card.bc_gi,10));
+}
+
+function attachNativeSelect(line){
+ line.onSelect=function(target,card){
+  nativeRoute(card);
+ };
 }
 
 function HomeComponent(object){
- var scroll=new Lampa.Scroll({mask:true,over:true,step:250,end_ratio:2});
- var body=$('<div class="bc-home"></div>');
- var last=false;
+ var comp=new Lampa.InteractionMain(object);
 
- function shelfHtml(shelf,si){
-  var cards=(shelf.items||[]).map(function(ref,ii){
-   return '<div class="bc-card selector" data-shelf="'+si+'" data-item="'+ii+'"><div class="bc-card__title">'+
-    $('<div>').text(ref.title||'Подборка').html()+
-   '</div></div>';
-  }).join('');
-  if(!cards)return '';
-  return '<div class="bc-shelf"><div class="bc-section-title">'+
-   $('<div>').text(shelf.title).html()+
-   '</div><div class="bc-shelf__row">'+cards+'</div></div>';
- }
+ comp.create=function(){
+  this.activity.loader(true);
+  var self=this;
 
- function build(){
-  var hubs=HOME_TILES.map(function(h){
-   return '<div class="bc-hub selector" data-hub="'+h.id+'">'+
-    '<div class="bc-hub__ico">'+h.ico+'</div>'+
-    '<div class="bc-hub__title">'+$('<div>').text(h.title).html()+'</div>'+
-    '<div class="bc-hub__sub">'+$('<div>').text(h.sub).html()+'</div>'+
-   '</div>';
-  }).join('');
-
-  var shelves=HOME_SHELVES.map(shelfHtml).join('');
-
-  body.html(
-   '<div class="bc-hero">'+
-    '<div class="bc-hero__title">МОИ ПОДБОРКИ</div>'+
-    '<div class="bc-hero__sub">Франшизы · актёры · жанры · сериалы · тематические полки</div>'+
-   '</div>'+
-   '<div class="bc-section-title">Разделы</div>'+
-   '<div class="bc-hubs">'+hubs+'</div>'+
-   shelves
-  );
-
-  body.find('[data-hub]').on('hover:enter',function(){
-   showHub($(this).attr('data-hub'));
+  buildHubCards(function(hubs){
+   buildRows(homeRowSpecs(),function(rows){
+    rows.unshift({
+     title:'Разделы',
+     results:hubs,
+     nomore:true,
+     bc_native:true
+    });
+    self.build(rows);
+   });
   });
 
-  body.find('.bc-card').on('hover:enter',function(){
-   var si=parseInt($(this).attr('data-shelf'),10);
-   var ii=parseInt($(this).attr('data-item'),10);
-   var ref=HOME_SHELVES[si]&&HOME_SHELVES[si].items[ii];
-   if(ref)openGroup(ref.ci,ref.gi);
-  });
-
-  body.find('.selector').on('hover:focus',function(){
-   last=this;
-   try{scroll.update($(this),true)}catch(e){}
-   try{this.scrollIntoView({block:'nearest',inline:'nearest'})}catch(e2){}
-  });
- }
-
- this.create=function(){
-  build();
-  scroll.append(body);
-  try{this.activity.loader(false)}catch(e){}
   return this.render();
  };
 
- function focusedElement(){
-  if(last && document.body.contains(last)) return last;
-  var q=body.find('.selector.focus, .selector.hover').get(0);
-  return q||body.find('.selector').get(0)||null;
- }
-
- function moveVertical(dir){
-  var cur=focusedElement();
-  if(!cur) return false;
-
-  var cr=cur.getBoundingClientRect();
-  var cx=cr.left+cr.width/2;
-  var cy=cr.top+cr.height/2;
-  var all=body.find('.selector').toArray();
-  var best=null,bestScore=Infinity;
-
-  all.forEach(function(el){
-   if(el===cur) return;
-   var st=window.getComputedStyle?window.getComputedStyle(el):null;
-   if(st&&(st.display==='none'||st.visibility==='hidden')) return;
-
-   var r=el.getBoundingClientRect();
-   if(!r.width||!r.height) return;
-
-   var x=r.left+r.width/2;
-   var y=r.top+r.height/2;
-   var dy=(y-cy)*dir;
-   if(dy<=12) return;
-
-   var dx=Math.abs(x-cx);
-
-   // Prioritize the nearest row below/above, then the closest column.
-   // A modest horizontal penalty lets us transition cleanly
-   // from the hub grid to the first card of the next shelf.
-   var score=dy*10+dx;
-   if(score<bestScore){
-    bestScore=score;
-    best=el;
-   }
-  });
-
-  if(!best) return false;
-
-  last=best;
-  try{Lampa.Controller.focus(best)}catch(e){
-   try{Navigator.focus(best)}catch(e2){}
-  }
-
-  setTimeout(function(){
-   try{scroll.update($(best),true)}catch(e){}
-   try{best.scrollIntoView({block:'nearest',inline:'nearest'})}catch(e2){}
-  },20);
-
-  return true;
- }
-
- this.start=function(){
-  var self=this;
-  Lampa.Controller.add('content',{
-   link:self,
-   toggle:function(){
-    Lampa.Controller.collectionSet(scroll.render());
-    Lampa.Controller.collectionFocus(last||false,scroll.render());
-   },
-   left:function(){
-    if(Navigator.canmove('left'))Navigator.move('left');
-    else Lampa.Controller.toggle('menu');
-   },
-   right:function(){
-    if(Navigator.canmove('right'))Navigator.move('right');
-   },
-   up:function(){
-    if(!moveVertical(-1)){
-     try{Lampa.Controller.toggle('head')}catch(e){}
-    }
-   },
-   down:function(){
-    moveVertical(1);
-   },
-   back:function(){Lampa.Activity.backward()}
-  });
-  Lampa.Controller.toggle('content');
+ comp.onAppend=function(line,row){
+  attachNativeSelect(line);
  };
 
- this.pause=function(){};
- this.stop=function(){};
- this.render=function(){return scroll.render()};
- this.destroy=function(){try{scroll.destroy()}catch(e){}body.remove()};
+ return comp;
+}
+
+function HubComponent(object){
+ var comp=new Lampa.InteractionMain(object);
+
+ comp.create=function(){
+  this.activity.loader(true);
+  var self=this;
+  buildRows(hubRowSpecs(object.hub_kind),function(rows){
+   if(rows.length)self.build(rows);
+   else self.empty();
+  });
+  return this.render();
+ };
+
+ comp.onAppend=function(line,row){
+  attachNativeSelect(line);
+ };
+
+ return comp;
 }
 
 function openCollectionsHome(){
@@ -993,9 +1167,9 @@ function addMenu(){
  var catalog=$('.menu .menu__list .menu__item[data-action="catalog"]');if(catalog.length)catalog.before(item);else $('.menu .menu__list').eq(0).append(item);
 }
 function init(){
- injectHomeStyles();
  Lampa.Component.add(COMPONENT,component);
  Lampa.Component.add(HOME_COMPONENT,HomeComponent);
+ Lampa.Component.add(HUB_COMPONENT,HubComponent);
  Lampa.Manifest.plugins={type:'other',version:VERSION,name:'Большой каталог подборок',description:'Collections Home: франшизы, актёры, жанры, сериалы и тематические полки; просмотр через MODS'};
  addMenu();
  console.log('[Big Collections] v'+VERSION+' ready');
