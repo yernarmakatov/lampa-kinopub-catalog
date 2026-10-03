@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.2.1';
+var VERSION='1.3.0';
 var COMPONENT='yernar_big_collection_list';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v1';
@@ -370,7 +370,41 @@ C('34. The Equalizer — Великий уравнитель',[
  ])
 ]),
 C('35. Джеки Чан — все фильмы по дате выхода',[
- {title:'Полная актёрская фильмография Джеки Чана',items:[],dynamic:'jackie',note:'Автоматически берётся из TMDB: все кинокредиты Jackie Chan как актёра/актёра озвучки, сортировка от ранних к новым. Режиссёрские и продюсерские работы без появления в кадре не добавляются.'}
+ {title:'Джеки Чан — полная фильмография',items:[],dynamic:'actor',actor:'Jackie Chan',actor_ru:'Джеки Чан',person_id:18897,note:'Актёрские кинокредиты по дате выхода, от ранних к новым.'}
+]),
+C('36. Легенды экшена — фильмографии по годам',[
+ {title:'Джет Ли — все фильмы',items:[],dynamic:'actor',actor:'Jet Li',actor_ru:'Джет Ли',person_id:1336},
+ {title:'Арнольд Шварценеггер — все фильмы',items:[],dynamic:'actor',actor:'Arnold Schwarzenegger',actor_ru:'Арнольд Шварценеггер',person_id:1100},
+ {title:'Жан-Клод Ван Дамм — все фильмы',items:[],dynamic:'actor',actor:'Jean-Claude Van Damme',actor_ru:'Жан-Клод Ван Дамм',person_id:15111},
+ {title:'Донни Йен — все фильмы',items:[],dynamic:'actor',actor:'Donnie Yen',actor_ru:'Донни Йен',person_id:1341},
+ {title:'Брюс Уиллис — все фильмы',items:[],dynamic:'actor',actor:'Bruce Willis',actor_ru:'Брюс Уиллис',person_id:62},
+ {title:'Сильвестр Сталлоне — все фильмы',items:[],dynamic:'actor',actor:'Sylvester Stallone',actor_ru:'Сильвестр Сталлоне',person_id:16483},
+ {title:'Джейсон Стэйтем — все фильмы',items:[],dynamic:'actor',actor:'Jason Statham',actor_ru:'Джейсон Стэйтем',person_id:976},
+ {title:'Киану Ривз — все фильмы',items:[],dynamic:'actor',actor:'Keanu Reeves',actor_ru:'Киану Ривз',person_id:6384},
+ {title:'Дуэйн Джонсон — все фильмы',items:[],dynamic:'actor',actor:'Dwayne Johnson',actor_ru:'Дуэйн «Скала» Джонсон',person_id:18918},
+ {title:'Лиам Нисон — все фильмы',items:[],dynamic:'actor',actor:'Liam Neeson',actor_ru:'Лиам Нисон',person_id:3896},
+ {title:'Харрисон Форд — все фильмы',items:[],dynamic:'actor',actor:'Harrison Ford',actor_ru:'Харрисон Форд',person_id:3},
+ {title:'Том Круз — все фильмы',items:[],dynamic:'actor',actor:'Tom Cruise',actor_ru:'Том Круз',person_id:500},
+ {title:'Уэсли Снайпс — все фильмы',items:[],dynamic:'actor',actor:'Wesley Snipes',actor_ru:'Уэсли Снайпс',person_id:10814},
+ {title:'Дольф Лундгрен — все фильмы',items:[],dynamic:'actor',actor:'Dolph Lundgren',actor_ru:'Дольф Лундгрен',person_id:16644},
+ {title:'Тони Джа — все фильмы',items:[],dynamic:'actor',actor:'Tony Jaa',actor_ru:'Тони Джа',person_id:57207},
+ {title:'Ико Увайс — все фильмы',items:[],dynamic:'actor',actor:'Iko Uwais',actor_ru:'Ико Увайс',person_id:113732},
+ {title:'Брюс Ли — все фильмы',items:[],dynamic:'actor',actor:'Bruce Lee',actor_ru:'Брюс Ли'},
+ {title:'Стивен Сигал — все фильмы',items:[],dynamic:'actor',actor:'Steven Seagal',actor_ru:'Стивен Сигал'},
+ {title:'Чак Норрис — все фильмы',items:[],dynamic:'actor',actor:'Chuck Norris',actor_ru:'Чак Норрис'},
+ {title:'Скотт Эдкинс — все фильмы',items:[],dynamic:'actor',actor:'Scott Adkins',actor_ru:'Скотт Эдкинс'},
+ {title:'Мэл Гибсон — все фильмы',items:[],dynamic:'actor',actor:'Mel Gibson',actor_ru:'Мэл Гибсон'},
+ {title:'Николас Кейдж — все фильмы',items:[],dynamic:'actor',actor:'Nicolas Cage',actor_ru:'Николас Кейдж'},
+ {title:'Вин Дизель — все фильмы',items:[],dynamic:'actor',actor:'Vin Diesel',actor_ru:'Вин Дизель'},
+ {title:'Марк Дакаскос — все фильмы',items:[],dynamic:'actor',actor:'Mark Dacascos',actor_ru:'Марк Дакаскос'},
+ {title:'Чоу Юнь-Фат — все фильмы',items:[],dynamic:'actor',actor:'Chow Yun-fat',actor_ru:'Чоу Юнь-Фат'},
+ {title:'Мишель Йео — все фильмы',items:[],dynamic:'actor',actor:'Michelle Yeoh',actor_ru:'Мишель Йео'},
+ {title:'Клинт Иствуд — все фильмы',items:[],dynamic:'actor',actor:'Clint Eastwood',actor_ru:'Клинт Иствуд'},
+ {title:'Уилл Смит — все фильмы',items:[],dynamic:'actor',actor:'Will Smith',actor_ru:'Уилл Смит'},
+ {title:'Марк Уолберг — все фильмы',items:[],dynamic:'actor',actor:'Mark Wahlberg',actor_ru:'Марк Уолберг'},
+ {title:'Джерард Батлер — все фильмы',items:[],dynamic:'actor',actor:'Gerard Butler',actor_ru:'Джерард Батлер'},
+ {title:'Дензел Вашингтон — все фильмы',items:[],dynamic:'actor',actor:'Denzel Washington',actor_ru:'Дензел Вашингтон'},
+ {title:'Сэмюэл Л. Джексон — все фильмы',items:[],dynamic:'actor',actor:'Samuel L. Jackson',actor_ru:'Сэмюэл Л. Джексон'}
 ])
 ];
 
@@ -408,77 +442,106 @@ function resolve(e,num,done){
  function finish(r){if(!r)return done(null);r.source='tmdb';cacheSet(k,r);done(decorate(JSON.parse(JSON.stringify(r)),e,num))}
  if(e.type==='tv')search(e,'tv',finish);else search(e,'movie',function(r){if(r)finish(r);else search(e,'tv',finish)})
 }
-function jackieCredits(ok,err){
+function actorIdCache(){
+ var x=Lampa.Storage.get('big_collections_actor_ids_v1',{});
+ return x&&typeof x==='object'?x:{};
+}
+function saveActorId(name,id){
+ var x=actorIdCache();x[name]=id;Lampa.Storage.set('big_collections_actor_ids_v1',x);
+}
+function resolveActorId(g,src,ok,err){
+ if(g.person_id)return ok(g.person_id);
+
+ var cached=actorIdCache()[g.actor];
+ if(cached)return ok(cached);
+
+ src.list({url:'search/person',query:encodeURIComponent(g.actor),page:1},function(d){
+  var rows=(d&&d.results)||[],target=norm(g.actor),exact=[],i;
+  for(i=0;i<rows.length;i++){
+   if(norm(rows[i].name)===target)exact.push(rows[i]);
+  }
+  var pool=exact.length?exact:rows;
+  pool.sort(function(a,b){return (parseFloat(b.popularity)||0)-(parseFloat(a.popularity)||0)});
+  var p=pool[0];
+  if(!p||!p.id)return err&&err();
+  saveActorId(g.actor,p.id);
+  ok(p.id);
+ },err);
+}
+function isNoiseCredit(r){
+ var ch=norm(r&&r.character||'');
+ var title=norm((r&&r.title)||(r&&r.original_title)||'');
+
+ if(ch==='self'||ch.indexOf('self ')===0||ch==='himself'||ch==='herself'||ch.indexOf('archive footage')>=0){
+   return true;
+ }
+
+ if(/^(wwe|wwf|ufc)\b/.test(title))return true;
+ if(title.indexOf('making of ')===0||title.indexOf('behind the scenes')>=0)return true;
+ if(title.indexOf('golden globe')>=0||title.indexOf('mtv movie awards')>=0)return true;
+
+ return false;
+}
+function actorCredits(g,ok,err){
  try{
   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
   if(!src||!src.list)return err&&err();
 
-  // Jackie Chan — canonical TMDB person id.
-  // Hardcoded intentionally: name search can return unrelated namesakes.
-  var JACKIE_CHAN_TMDB_ID=18897;
-
-  src.list({url:'person/'+JACKIE_CHAN_TMDB_ID+'/movie_credits',page:1},function(d){
-    var arr=(d&&d.cast)||[];
-    var now=new Date();
+  resolveActorId(g,src,function(personId){
+   src.list({url:'person/'+personId+'/movie_credits',page:1},function(d){
+    var arr=(d&&d.cast)||[],now=new Date(),seen={};
 
     arr=arr.filter(function(r){
-      if(!r||!r.id)return false;
+     if(!r||!r.id||isNoiseCredit(r))return false;
 
-      // Keep only released films. Undated entries are kept because older HK
-      // credits can lack an exact release date in TMDB.
-      var dt=r.release_date ? new Date(r.release_date+'T00:00:00') : null;
-      return !dt || isNaN(dt.getTime()) || dt<=now;
+     var dt=r.release_date?new Date(r.release_date+'T00:00:00'):null;
+     if(dt&&!isNaN(dt.getTime())&&dt>now)return false;
+
+     var k=String(r.id);
+     if(seen[k])return false;
+     seen[k]=1;
+     return true;
     });
 
-    // De-duplicate alternate character credits for the same movie.
-    var seen={};
-    arr=arr.filter(function(r){
-      var k=String(r.id);
-      if(seen[k])return false;
-      seen[k]=1;
-      return true;
-    });
-
-    // Strict chronological release order: earliest -> newest.
     arr.sort(function(a,b){
-      var da=String(a.release_date||'9999-99-99');
-      var db=String(b.release_date||'9999-99-99');
-      if(da<db)return-1;
-      if(da>db)return 1;
-      return (a.id||0)-(b.id||0);
+     var da=String(a.release_date||'9999-99-99');
+     var db=String(b.release_date||'9999-99-99');
+     if(da<db)return-1;
+     if(da>db)return 1;
+     return (a.id||0)-(b.id||0);
     });
 
-    if(!arr.length){
-      if(err)err();
-      return;
-    }
-
+    if(!arr.length)return err&&err();
     ok(arr);
+   },err);
   },err);
  }catch(e){if(err)err()}
 }
-function decorateDynamic(r,num){
+function decorateDynamicActor(r,num,g){
  var x=JSON.parse(JSON.stringify(r));
  x.source='tmdb';
  var y=yr(x),name=x.title||x.original_title||'Без названия';
  var p=(num<9?'00':num<99?'0':'')+num;
  x.title=p+' · '+name+(y?' ('+y+')':'');
- x.overview='ДЖЕКИ ЧАН · фильмография по дате выхода'+(x.character?' · роль: '+x.character:'')+(x.overview?'\\n\\n'+x.overview:'');
+ x.name=x.title;
+ x.overview=(g.actor_ru||g.actor)+' · фильмография по дате выхода'+
+  (x.character?' · роль: '+x.character:'')+
+  (x.overview?'\\n\\n'+x.overview:'');
  return x;
 }
 function fetchList(o,ok,err){
  var cat=CATS[o.cat],g=cat&&cat.groups[o.group];if(!g)return err&&err();
  var page=Math.max(1,parseInt(o.page||1,10));
 
- if(g.dynamic==='jackie'){
-  return jackieCredits(function(all){
+ if(g.dynamic==='actor'){
+  return actorCredits(g,function(all){
     var start=(page-1)*PER_PAGE,rows=all.slice(start,start+PER_PAGE);
     ok({
       secuses:true,
       page:page,
       total_pages:Math.max(1,Math.ceil(all.length/PER_PAGE)),
       total_results:all.length,
-      results:rows.map(function(r,i){return decorateDynamic(r,start+i+1)})
+      results:rows.map(function(r,i){return decorateDynamicActor(r,start+i+1,g)})
     });
   },err);
  }
@@ -506,7 +569,7 @@ function showCategory(ci){
 function showMain(){
  var items=CATS.map(function(c,i){return{title:c.title,i:i}});
  items.push({title:'🧹 Очистить кэш карточек',clear:true});
- Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
+ Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
 }
 function addMenu(){
  if($('.menu__item[data-action="big_collections"]').length)return;
