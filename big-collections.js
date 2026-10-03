@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.4.0';
+var VERSION='1.4.1';
 var COMPONENT='yernar_big_collection_list';
 var HOME_COMPONENT='yernar_big_collections_home';
 var PER_PAGE=14;
@@ -891,6 +891,62 @@ function HomeComponent(object){
   return this.render();
  };
 
+ function focusedElement(){
+  if(last && document.body.contains(last)) return last;
+  var q=body.find('.selector.focus, .selector.hover').get(0);
+  return q||body.find('.selector').get(0)||null;
+ }
+
+ function moveVertical(dir){
+  var cur=focusedElement();
+  if(!cur) return false;
+
+  var cr=cur.getBoundingClientRect();
+  var cx=cr.left+cr.width/2;
+  var cy=cr.top+cr.height/2;
+  var all=body.find('.selector').toArray();
+  var best=null,bestScore=Infinity;
+
+  all.forEach(function(el){
+   if(el===cur) return;
+   var st=window.getComputedStyle?window.getComputedStyle(el):null;
+   if(st&&(st.display==='none'||st.visibility==='hidden')) return;
+
+   var r=el.getBoundingClientRect();
+   if(!r.width||!r.height) return;
+
+   var x=r.left+r.width/2;
+   var y=r.top+r.height/2;
+   var dy=(y-cy)*dir;
+   if(dy<=12) return;
+
+   var dx=Math.abs(x-cx);
+
+   // Prioritize the nearest row below/above, then the closest column.
+   // A modest horizontal penalty lets us transition cleanly
+   // from the hub grid to the first card of the next shelf.
+   var score=dy*10+dx;
+   if(score<bestScore){
+    bestScore=score;
+    best=el;
+   }
+  });
+
+  if(!best) return false;
+
+  last=best;
+  try{Lampa.Controller.focus(best)}catch(e){
+   try{Navigator.focus(best)}catch(e2){}
+  }
+
+  setTimeout(function(){
+   try{scroll.update($(best),true)}catch(e){}
+   try{best.scrollIntoView({block:'nearest',inline:'nearest'})}catch(e2){}
+  },20);
+
+  return true;
+ }
+
  this.start=function(){
   var self=this;
   Lampa.Controller.add('content',{
@@ -903,12 +959,17 @@ function HomeComponent(object){
     if(Navigator.canmove('left'))Navigator.move('left');
     else Lampa.Controller.toggle('menu');
    },
-   right:function(){if(Navigator.canmove('right'))Navigator.move('right')},
-   up:function(){
-    if(Navigator.canmove('up'))Navigator.move('up');
-    else try{Lampa.Controller.toggle('head')}catch(e){}
+   right:function(){
+    if(Navigator.canmove('right'))Navigator.move('right');
    },
-   down:function(){if(Navigator.canmove('down'))Navigator.move('down')},
+   up:function(){
+    if(!moveVertical(-1)){
+     try{Lampa.Controller.toggle('head')}catch(e){}
+    }
+   },
+   down:function(){
+    moveVertical(1);
+   },
    back:function(){Lampa.Activity.backward()}
   });
   Lampa.Controller.toggle('content');
