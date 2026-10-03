@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.2.0';
+var VERSION='1.2.1';
 var COMPONENT='yernar_big_collection_list';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v1';
@@ -413,44 +413,47 @@ function jackieCredits(ok,err){
   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
   if(!src||!src.list)return err&&err();
 
-  function loadCredits(personId){
-    src.list({url:'person/'+personId+'/movie_credits',page:1},function(d){
-      var arr=(d&&d.cast)||[];
-      var now=new Date();
+  // Jackie Chan — canonical TMDB person id.
+  // Hardcoded intentionally: name search can return unrelated namesakes.
+  var JACKIE_CHAN_TMDB_ID=18897;
 
-      arr=arr.filter(function(r){
-        if(!r||!r.id)return false;
-        var dt=r.release_date ? new Date(r.release_date+'T00:00:00') : null;
-        return !dt || isNaN(dt.getTime()) || dt<=now;
-      });
+  src.list({url:'person/'+JACKIE_CHAN_TMDB_ID+'/movie_credits',page:1},function(d){
+    var arr=(d&&d.cast)||[];
+    var now=new Date();
 
-      // De-duplicate alternate credits for the same movie.
-      var seen={};
-      arr=arr.filter(function(r){
-        var k=String(r.id);
-        if(seen[k])return false;
-        seen[k]=1;return true;
-      });
+    arr=arr.filter(function(r){
+      if(!r||!r.id)return false;
 
-      arr.sort(function(a,b){
-        var da=String(a.release_date||'9999-99-99'),db=String(b.release_date||'9999-99-99');
-        if(da<db)return-1;if(da>db)return 1;
-        return (a.id||0)-(b.id||0);
-      });
+      // Keep only released films. Undated entries are kept because older HK
+      // credits can lack an exact release date in TMDB.
+      var dt=r.release_date ? new Date(r.release_date+'T00:00:00') : null;
+      return !dt || isNaN(dt.getTime()) || dt<=now;
+    });
 
-      ok(arr);
-    },err);
-  }
+    // De-duplicate alternate character credits for the same movie.
+    var seen={};
+    arr=arr.filter(function(r){
+      var k=String(r.id);
+      if(seen[k])return false;
+      seen[k]=1;
+      return true;
+    });
 
-  src.list({url:'search/person',query:encodeURIComponent('Jackie Chan'),page:1},function(d){
-    var results=(d&&d.results)||[];
-    var person=null;
-    for(var i=0;i<results.length;i++){
-      if(norm(results[i].name)==='jackie chan'){person=results[i];break}
+    // Strict chronological release order: earliest -> newest.
+    arr.sort(function(a,b){
+      var da=String(a.release_date||'9999-99-99');
+      var db=String(b.release_date||'9999-99-99');
+      if(da<db)return-1;
+      if(da>db)return 1;
+      return (a.id||0)-(b.id||0);
+    });
+
+    if(!arr.length){
+      if(err)err();
+      return;
     }
-    if(!person&&results.length)person=results[0];
-    if(!person)return err&&err();
-    loadCredits(person.id);
+
+    ok(arr);
   },err);
  }catch(e){if(err)err()}
 }
