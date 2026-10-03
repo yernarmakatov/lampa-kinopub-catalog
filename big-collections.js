@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.1.0';
+var VERSION='1.2.0';
 var COMPONENT='yernar_big_collection_list';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v1';
@@ -271,6 +271,106 @@ C('20. Франшизы целиком — быстрый каталог',[
  G('TRON',[
   'TRON|1982|movie|Трон','TRON: Legacy|2010|movie|Трон: Наследие','Tron: Ares|2025|movie|Трон: Арес'
  ])
+]),
+C('21. Mad Max — пустошь',[
+ G('Mad Max — вся киносага по выходу',[
+  'Mad Max|1979|movie|Безумный Макс','Mad Max 2|1981|movie|Безумный Макс 2: Воин дороги','Mad Max Beyond Thunderdome|1985|movie|Безумный Макс 3: Под куполом грома','Mad Max: Fury Road|2015|movie|Безумный Макс: Дорога ярости','Furiosa: A Mad Max Saga|2024|movie|Фуриоса: Хроники Безумного Макса'
+ ])
+]),
+C('22. A Quiet Place — Тихое место',[
+ G('Тихое место — по выходу',[
+  'A Quiet Place|2018|movie|Тихое место','A Quiet Place Part II|2020|movie|Тихое место 2','A Quiet Place: Day One|2024|movie|Тихое место: День первый'
+ ])
+]),
+C('23. Scream — Крик',[
+ G('Крик — все фильмы по выходу',[
+  'Scream|1996|movie|Крик','Scream 2|1997|movie|Крик 2','Scream 3|2000|movie|Крик 3','Scream 4|2011|movie|Крик 4','Scream|2022|movie|Крик 5','Scream VI|2023|movie|Крик 6','Scream 7|2026|movie|Крик 7'
+ ]),
+ G('Крик — сериал отдельно',[
+  'Scream|2015|tv|Крик — сериал'
+ ])
+]),
+C('24. Halloween — Майкл Майерс',[
+ G('Halloween — все фильмы по выходу',[
+  'Halloween|1978|movie|Хэллоуин','Halloween II|1981|movie|Хэллоуин 2','Halloween III: Season of the Witch|1982|movie|Хэллоуин 3: Время ведьм','Halloween 4: The Return of Michael Myers|1988|movie|Хэллоуин 4: Возвращение Майкла Майерса','Halloween 5: The Revenge of Michael Myers|1989|movie|Хэллоуин 5: Месть Майкла Майерса','Halloween: The Curse of Michael Myers|1995|movie|Хэллоуин 6: Проклятие Майкла Майерса','Halloween H20: 20 Years Later|1998|movie|Хэллоуин: 20 лет спустя','Halloween: Resurrection|2002|movie|Хэллоуин: Воскрешение','Halloween|2007|movie|Хэллоуин — Роб Зомби','Halloween II|2009|movie|Хэллоуин 2 — Роб Зомби','Halloween|2018|movie|Хэллоуин','Halloween Kills|2021|movie|Хэллоуин убивает','Halloween Ends|2022|movie|Хэллоуин заканчивается'
+ ])
+]),
+C('25. Friday the 13th — Пятница, 13-е',[
+ G('Пятница, 13-е — все фильмы по выходу',[
+  'Friday the 13th|1980|movie|Пятница, 13-е','Friday the 13th Part 2|1981|movie|Пятница, 13-е. Часть 2','Friday the 13th Part III|1982|movie|Пятница, 13-е. Часть 3','Friday the 13th: The Final Chapter|1984|movie|Пятница, 13-е: Последняя глава','Friday the 13th: A New Beginning|1985|movie|Пятница, 13-е: Новое начало','Friday the 13th Part VI: Jason Lives|1986|movie|Пятница, 13-е. Часть 6: Джейсон жив','Friday the 13th Part VII: The New Blood|1988|movie|Пятница, 13-е. Часть 7: Новая кровь','Friday the 13th Part VIII: Jason Takes Manhattan|1989|movie|Пятница, 13-е. Часть 8: Джейсон штурмует Манхэттен','Jason Goes to Hell: The Final Friday|1993|movie|Джейсон отправляется в ад','Jason X|2001|movie|Джейсон X','Freddy vs. Jason|2003|movie|Фредди против Джейсона','Friday the 13th|2009|movie|Пятница, 13-е — перезапуск'
+ ]),
+ G('Crystal Lake — сериал-приквел',[
+  'Crystal Lake|2026|tv|Хрустальное озеро'
+ ])
+]),
+C('26. A Nightmare on Elm Street — Кошмар на улице Вязов',[
+ G('Фредди Крюгер — все фильмы',[
+  'A Nightmare on Elm Street|1984|movie|Кошмар на улице Вязов','A Nightmare on Elm Street 2: Freddy\'s Revenge|1985|movie|Кошмар на улице Вязов 2: Месть Фредди','A Nightmare on Elm Street 3: Dream Warriors|1987|movie|Кошмар на улице Вязов 3: Воины сна','A Nightmare on Elm Street 4: The Dream Master|1988|movie|Кошмар на улице Вязов 4: Повелитель сна','A Nightmare on Elm Street 5: The Dream Child|1989|movie|Кошмар на улице Вязов 5: Дитя сна','Freddy\'s Dead: The Final Nightmare|1991|movie|Фредди мёртв: Последний кошмар','Wes Craven\'s New Nightmare|1994|movie|Кошмар Уэса Крэйвена','Freddy vs. Jason|2003|movie|Фредди против Джейсона','A Nightmare on Elm Street|2010|movie|Кошмар на улице Вязов — ремейк'
+ ]),
+ G('Freddy\'s Nightmares — сериал',[
+  'Freddy\'s Nightmares|1988|tv|Кошмары Фредди'
+ ])
+]),
+C('27. Evil Dead — Зловещие мертвецы',[
+ G('Evil Dead — фильмы по выходу',[
+  'The Evil Dead|1981|movie|Зловещие мертвецы','Evil Dead II|1987|movie|Зловещие мертвецы 2','Army of Darkness|1992|movie|Армия тьмы','Evil Dead|2013|movie|Зловещие мертвецы — 2013','Evil Dead Rise|2023|movie|Восстание зловещих мертвецов','Evil Dead Burn|2026|movie|Evil Dead Burn'
+ ]),
+ G('Ash vs Evil Dead — сериал',[
+  'Ash vs Evil Dead|2015|tv|Эш против зловещих мертвецов'
+ ])
+]),
+C('28. Insidious — Астрал',[
+ G('Астрал — все фильмы по выходу',[
+  'Insidious|2010|movie|Астрал','Insidious: Chapter 2|2013|movie|Астрал: Глава 2','Insidious: Chapter 3|2015|movie|Астрал: Глава 3','Insidious: The Last Key|2018|movie|Астрал 4: Последний ключ','Insidious: The Red Door|2023|movie|Астрал 5: Красная дверь','Insidious: Out of the Further|2026|movie|Астрал: За гранью'
+ ])
+]),
+C('29. Paranormal Activity',[
+ G('Паранормальное явление — все вышедшие фильмы',[
+  'Paranormal Activity|2007|movie|Паранормальное явление','Paranormal Activity 2|2010|movie|Паранормальное явление 2','Paranormal Activity 3|2011|movie|Паранормальное явление 3','Paranormal Activity 4|2012|movie|Паранормальное явление 4','Paranormal Activity: The Marked Ones|2014|movie|Паранормальное явление: Метка Дьявола','Paranormal Activity: The Ghost Dimension|2015|movie|Паранормальное явление 5: Призраки в 3D','Paranormal Activity: Next of Kin|2021|movie|Паранормальное явление: Ближайший родственник'
+ ])
+]),
+C('30. The Godfather — Крёстный отец',[
+ G('Крёстный отец — трилогия',[
+  'The Godfather|1972|movie|Крёстный отец','The Godfather Part II|1974|movie|Крёстный отец 2','The Godfather Part III|1990|movie|Крёстный отец 3'
+ ]),
+ G('Альтернативный монтаж третьей части',[
+  'Mario Puzo\'s The Godfather, Coda: The Death of Michael Corleone|2020|movie|Крёстный отец. Эпилог: Смерть Майкла Корлеоне'
+ ])
+]),
+C('31. Hannibal Lecter',[
+ G('Ганнибал — фильмы по выходу',[
+  'Manhunter|1986|movie|Охотник на людей','The Silence of the Lambs|1991|movie|Молчание ягнят','Hannibal|2001|movie|Ганнибал','Red Dragon|2002|movie|Красный дракон','Hannibal Rising|2007|movie|Ганнибал: Восхождение'
+ ],'Manhunter и Red Dragon — две разные экранизации одного романа.'),
+ G('Основная кинохронология',[
+  'Hannibal Rising|2007|movie|Ганнибал: Восхождение','Red Dragon|2002|movie|Красный дракон','The Silence of the Lambs|1991|movie|Молчание ягнят','Hannibal|2001|movie|Ганнибал'
+ ]),
+ G('Телевизионные версии',[
+  'Hannibal|2013|tv|Ганнибал — сериал','Clarice|2021|tv|Кларисса'
+ ])
+]),
+C('32. James Bond — Агент 007',[
+ G('James Bond — 25 официальных фильмов EON',[
+  'Dr. No|1962|movie|Доктор Ноу','From Russia with Love|1963|movie|Из России с любовью','Goldfinger|1964|movie|Голдфингер','Thunderball|1965|movie|Шаровая молния','You Only Live Twice|1967|movie|Живёшь только дважды','On Her Majesty\'s Secret Service|1969|movie|На секретной службе Её Величества','Diamonds Are Forever|1971|movie|Бриллианты навсегда','Live and Let Die|1973|movie|Живи и дай умереть','The Man with the Golden Gun|1974|movie|Человек с золотым пистолетом','The Spy Who Loved Me|1977|movie|Шпион, который меня любил','Moonraker|1979|movie|Лунный гонщик','For Your Eyes Only|1981|movie|Только для твоих глаз','Octopussy|1983|movie|Осьминожка','A View to a Kill|1985|movie|Вид на убийство','The Living Daylights|1987|movie|Искры из глаз','Licence to Kill|1989|movie|Лицензия на убийство','GoldenEye|1995|movie|Золотой глаз','Tomorrow Never Dies|1997|movie|Завтра не умрёт никогда','The World Is Not Enough|1999|movie|И целого мира мало','Die Another Day|2002|movie|Умри, но не сейчас','Casino Royale|2006|movie|Казино Рояль','Quantum of Solace|2008|movie|Квант милосердия','Skyfall|2012|movie|007: Координаты «Скайфолл»','Spectre|2015|movie|007: Спектр','No Time to Die|2021|movie|Не время умирать'
+ ]),
+ G('Неофициальные фильмы Bond',[
+  'Casino Royale|1967|movie|Казино Рояль — 1967','Never Say Never Again|1983|movie|Никогда не говори «никогда»'
+ ])
+]),
+C('33. Kingsman',[
+ G('Kingsman — по выходу',[
+  'Kingsman: The Secret Service|2014|movie|Kingsman: Секретная служба','Kingsman: The Golden Circle|2017|movie|Kingsman: Золотое кольцо','The King\'s Man|2021|movie|King\'s Man: Начало'
+ ])
+]),
+C('34. The Equalizer — Великий уравнитель',[
+ G('Великий уравнитель — кинотрилогия',[
+  'The Equalizer|2014|movie|Великий уравнитель','The Equalizer 2|2018|movie|Великий уравнитель 2','The Equalizer 3|2023|movie|Великий уравнитель 3'
+ ]),
+ G('The Equalizer — сериалы отдельно',[
+  'The Equalizer|1985|tv|Уравнитель — сериал 1985','The Equalizer|2021|tv|Великий уравнитель — сериал 2021'
+ ])
+]),
+C('35. Джеки Чан — все фильмы по дате выхода',[
+ {title:'Полная актёрская фильмография Джеки Чана',items:[],dynamic:'jackie',note:'Автоматически берётся из TMDB: все кинокредиты Jackie Chan как актёра/актёра озвучки, сортировка от ранних к новым. Режиссёрские и продюсерские работы без появления в кадре не добавляются.'}
 ])
 ];
 
@@ -308,9 +408,79 @@ function resolve(e,num,done){
  function finish(r){if(!r)return done(null);r.source='tmdb';cacheSet(k,r);done(decorate(JSON.parse(JSON.stringify(r)),e,num))}
  if(e.type==='tv')search(e,'tv',finish);else search(e,'movie',function(r){if(r)finish(r);else search(e,'tv',finish)})
 }
+function jackieCredits(ok,err){
+ try{
+  var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+  if(!src||!src.list)return err&&err();
+
+  function loadCredits(personId){
+    src.list({url:'person/'+personId+'/movie_credits',page:1},function(d){
+      var arr=(d&&d.cast)||[];
+      var now=new Date();
+
+      arr=arr.filter(function(r){
+        if(!r||!r.id)return false;
+        var dt=r.release_date ? new Date(r.release_date+'T00:00:00') : null;
+        return !dt || isNaN(dt.getTime()) || dt<=now;
+      });
+
+      // De-duplicate alternate credits for the same movie.
+      var seen={};
+      arr=arr.filter(function(r){
+        var k=String(r.id);
+        if(seen[k])return false;
+        seen[k]=1;return true;
+      });
+
+      arr.sort(function(a,b){
+        var da=String(a.release_date||'9999-99-99'),db=String(b.release_date||'9999-99-99');
+        if(da<db)return-1;if(da>db)return 1;
+        return (a.id||0)-(b.id||0);
+      });
+
+      ok(arr);
+    },err);
+  }
+
+  src.list({url:'search/person',query:encodeURIComponent('Jackie Chan'),page:1},function(d){
+    var results=(d&&d.results)||[];
+    var person=null;
+    for(var i=0;i<results.length;i++){
+      if(norm(results[i].name)==='jackie chan'){person=results[i];break}
+    }
+    if(!person&&results.length)person=results[0];
+    if(!person)return err&&err();
+    loadCredits(person.id);
+  },err);
+ }catch(e){if(err)err()}
+}
+function decorateDynamic(r,num){
+ var x=JSON.parse(JSON.stringify(r));
+ x.source='tmdb';
+ var y=yr(x),name=x.title||x.original_title||'Без названия';
+ var p=(num<9?'00':num<99?'0':'')+num;
+ x.title=p+' · '+name+(y?' ('+y+')':'');
+ x.overview='ДЖЕКИ ЧАН · фильмография по дате выхода'+(x.character?' · роль: '+x.character:'')+(x.overview?'\\n\\n'+x.overview:'');
+ return x;
+}
 function fetchList(o,ok,err){
  var cat=CATS[o.cat],g=cat&&cat.groups[o.group];if(!g)return err&&err();
- var page=Math.max(1,parseInt(o.page||1,10)),start=(page-1)*PER_PAGE,rows=g.items.slice(start,start+PER_PAGE);
+ var page=Math.max(1,parseInt(o.page||1,10));
+
+ if(g.dynamic==='jackie'){
+  return jackieCredits(function(all){
+    var start=(page-1)*PER_PAGE,rows=all.slice(start,start+PER_PAGE);
+    ok({
+      secuses:true,
+      page:page,
+      total_pages:Math.max(1,Math.ceil(all.length/PER_PAGE)),
+      total_results:all.length,
+      results:rows.map(function(r,i){return decorateDynamic(r,start+i+1)})
+    });
+  },err);
+ }
+
+ var start=(page-1)*PER_PAGE,rows=g.items.slice(start,start+PER_PAGE);
  if(!rows.length)return ok({results:[],page:page,total_pages:page});
  var out=new Array(rows.length),next=0,active=0,fin=0,LIM=4;
  function pump(){while(active<LIM&&next<rows.length)(function(i){active++;next++;resolve(rows[i],start+i+1,function(r){out[i]=r;active--;fin++;if(fin===rows.length)ok({secuses:true,page:page,total_pages:Math.ceil(g.items.length/PER_PAGE),total_results:g.items.length,results:out.filter(Boolean)});else pump()})})(next)}
