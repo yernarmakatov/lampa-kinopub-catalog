@@ -4,7 +4,7 @@
 if(window.tvteam_lampa_ready || typeof Lampa === 'undefined') return;
 window.tvteam_lampa_ready = true;
 
-var VERSION = '0.1.0';
+var VERSION = '0.1.1';
 var COMPONENT = 'tvteam_main';
 var KEY_URL = 'tvteam_m3u_url';
 var KEY_CACHE = 'tvteam_filtered_cache_v1';
@@ -267,25 +267,46 @@ function render(){
 
 function promptUrl(){
   var current = getUrl();
+
+  function saveValue(v){
+    v = String(v == null ? '' : v).trim();
+    if(!v) return;
+    setUrl(v);
+    Lampa.Noty.show('TV.TEAM: плейлист сохранён');
+    if(state.body) load(true);
+  }
+
+  // Standard Lampa text input. Works on TV builds much more reliably
+  // than window.prompt / Keypad.
+  if(Lampa.Input && typeof Lampa.Input.edit === 'function'){
+    try{
+      Lampa.Input.edit({
+        free:true,
+        title:'TV.TEAM — вставьте M3U URL',
+        value:current,
+        nosave:true,
+        nomic:true
+      }, saveValue);
+      return;
+    }catch(e){}
+  }
+
   if(Lampa.Keypad && typeof Lampa.Keypad.show === 'function'){
-    Lampa.Keypad.show({
-      title:'TV.TEAM — M3U URL',
-      value:current,
-      confirm:function(v){
-        v = String(v || '').trim();
-        if(!v) return;
-        setUrl(v);
-        Lampa.Noty.show('TV.TEAM: плейлист сохранён');
-        if(state.body) load(true);
-      }
-    });
-  }else{
+    try{
+      Lampa.Keypad.show({
+        title:'TV.TEAM — M3U URL',
+        value:current,
+        confirm:saveValue
+      });
+      return;
+    }catch(e2){}
+  }
+
+  try{
     var v = window.prompt('TV.TEAM — M3U URL', current);
-    if(v !== null && String(v).trim()){
-      setUrl(String(v).trim());
-      Lampa.Noty.show('TV.TEAM: плейлист сохранён');
-      if(state.body) load(true);
-    }
+    if(v !== null) saveValue(v);
+  }catch(e3){
+    Lampa.Noty.show('TV.TEAM: поле ввода не поддерживается этой сборкой Lampa');
   }
 }
 
