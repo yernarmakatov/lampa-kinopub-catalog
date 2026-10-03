@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.5.0';
+var VERSION='1.6.0';
 var COMPONENT='yernar_big_collection_list';
 var HOME_COMPONENT='yernar_big_collections_home';
 var HUB_COMPONENT='yernar_big_collections_hub';
