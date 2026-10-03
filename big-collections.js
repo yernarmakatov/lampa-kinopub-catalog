@@ -3,10 +3,10 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.3.0';
+var VERSION='1.3.1';
 var COMPONENT='yernar_big_collection_list';
 var PER_PAGE=14;
-var CACHE_KEY='yernar_big_collections_tmdb_cache_v1';
+var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
 function E(s){
   var a=String(s).split('|');
@@ -431,7 +431,17 @@ function search(e,kind,done){
 function decorate(r,e,num){
  r.source='tmdb';
  var t=(num<9?'00':num<99?'0':'')+num+' · '+e.ru;
- r.title=t;r.name=t;
+
+ // Lampa determines detail type by presence of card.name:
+ // name => TV, no name => movie. Never set both.
+ if(e.type==='tv'){
+  r.name=t;
+  if(r.title) delete r.title;
+ }else{
+  r.title=t;
+  if(r.name) delete r.name;
+ }
+
  var pre='ПОДБОРКА · '+e.ru+(e.season?' · сезон '+e.season:'');
  r.overview=pre+(r.overview?'\n\n'+r.overview:'');
  return r;
@@ -439,8 +449,14 @@ function decorate(r,e,num){
 function resolve(e,num,done){
  var k=e.q+'|'+e.year+'|'+e.type,c=cache();
  if(c[k])return done(decorate(JSON.parse(JSON.stringify(c[k])),e,num));
- function finish(r){if(!r)return done(null);r.source='tmdb';cacheSet(k,r);done(decorate(JSON.parse(JSON.stringify(r)),e,num))}
- if(e.type==='tv')search(e,'tv',finish);else search(e,'movie',function(r){if(r)finish(r);else search(e,'tv',finish)})
+ function finish(r){
+  if(!r)return done(null);
+  r.source='tmdb';
+  cacheSet(k,r);
+  done(decorate(JSON.parse(JSON.stringify(r)),e,num));
+ }
+ if(e.type==='tv') search(e,'tv',finish);
+ else search(e,'movie',finish);
 }
 function actorIdCache(){
  var x=Lampa.Storage.get('big_collections_actor_ids_v1',{});
@@ -522,8 +538,11 @@ function decorateDynamicActor(r,num,g){
  x.source='tmdb';
  var y=yr(x),name=x.title||x.original_title||'Без названия';
  var p=(num<9?'00':num<99?'0':'')+num;
+
  x.title=p+' · '+name+(y?' ('+y+')':'');
- x.name=x.title;
+ // movie_credits are movies; a name field makes Lampa open a TV record.
+ if(x.name) delete x.name;
+
  x.overview=(g.actor_ru||g.actor)+' · фильмография по дате выхода'+
   (x.character?' · роль: '+x.character:'')+
   (x.overview?'\\n\\n'+x.overview:'');
