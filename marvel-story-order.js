@@ -4,7 +4,7 @@
 if(window.marvel_story_order_ready || typeof Lampa === 'undefined') return;
 window.marvel_story_order_ready = true;
 
-var VERSION = '1.0.0';
+var VERSION = '1.0.1';
 var COMPONENT = 'marvel_story_order';
 var PER_PAGE = 12;
 var CACHE_KEY = 'marvel_story_order_tmdb_cache_v1';
@@ -227,8 +227,13 @@ function decorate(item, entry, globalIndex){
   item.marvel_season = entry.season || 0;
 
   var display = pad(globalIndex + 1) + ' · ' + entry.ru;
-  item.title = display;
-  item.name = display;
+  if(entry.type === 'tv'){
+    item.name = display;
+    if(item.title) delete item.title;
+  }else{
+    item.title = display;
+    if(item.name) delete item.name;
+  }
 
   var intro = 'MARVEL STORY ORDER #' + pad(globalIndex + 1) + ' · ' + (entry.tag || 'MARVEL');
   if(entry.season) intro += ' · сезон ' + entry.season;
