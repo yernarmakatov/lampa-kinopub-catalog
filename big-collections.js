@@ -1,12 +1,12 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready_180||typeof Lampa==='undefined')return;
+if(window.yernar_big_collections_ready_181||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.8.0';
-var COMPONENT='yernar_big_collection_list_v180';
-var HOME_COMPONENT='yernar_big_collections_home_v180';
-var HUB_COMPONENT='yernar_big_collections_hub_v180';
+var VERSION='1.8.1';
+var COMPONENT='yernar_big_collection_list_v181';
+var HOME_COMPONENT='yernar_big_collections_home_v181';
+var HUB_COMPONENT='yernar_big_collections_hub_v181';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
@@ -963,6 +963,112 @@ function animeToCard(m,num,g){
 
  return x;
 }
+
+function animeCardFromTmdb(tmdb,m,num,g){
+ var x=cloneCard(tmdb);
+ x.source='tmdb';
+
+ var p=(num<10?'00':num<100?'0':'')+num;
+ var base=x.name||x.title||x.original_name||x.original_title||animeTitle(m);
+ var isMovie=m.format==='MOVIE';
+
+ if(isMovie){
+  x.title=p+' · '+base;
+  if(x.name)delete x.name;
+ }else{
+  x.name=p+' · '+base;
+  if(x.title)delete x.title;
+ }
+
+ x.anilist_id=m.id;
+ x.anilist_score=m.averageScore||m.meanScore||0;
+ x.anilist_popularity=m.popularity||0;
+ x.anilist_trending=m.trending||0;
+ x.anilist_episodes=m.episodes||0;
+ x.anilist_status=m.status||'';
+ x.anilist_format=m.format||'';
+ x.anilist_genres=m.genres||[];
+ x.anilist_titles=[
+  m.title&&m.title.english||'',
+  m.title&&m.title.romaji||'',
+  m.title&&m.title.native||''
+ ].filter(Boolean);
+ x.anime_year=m.startDate&&m.startDate.year||0;
+ x.anime_media=isMovie?'movie':'tv';
+ x.anime_tmdb_resolved=true;
+
+ var prefix=(g.label||'ANIME')+
+  (x.anilist_score?' · AniList '+x.anilist_score+'/100':'')+
+  (x.anilist_episodes?' · '+x.anilist_episodes+' эп.':'')+
+  (x.anilist_genres.length?' · '+x.anilist_genres.slice(0,3).join(', '):'');
+
+ x.overview=prefix+(x.overview?'\\n\\n'+x.overview:'');
+ return x;
+}
+function resolveAnimeTmdb(m,num,g,done){
+ var kind=m.format==='MOVIE'?'movie':'tv';
+ var year=m.startDate&&m.startDate.year||0;
+ var titles=[
+  m.title&&m.title.english||'',
+  m.title&&m.title.romaji||'',
+  m.title&&m.title.native||''
+ ].filter(Boolean);
+ var i=0;
+
+ function next(){
+  if(i>=titles.length){
+   var fallback=animeToCard(m,num,g);
+   fallback.anime_tmdb_resolved=false;
+   return done(fallback);
+  }
+
+  var q=titles[i++];
+  search({q:q,year:year,type:kind},kind,function(r){
+   if(r)return done(animeCardFromTmdb(r,m,num,g));
+   next();
+  });
+ }
+ next();
+}
+function mapAnimeTmdb(media,start,g,done){
+ if(!media.length)return done([]);
+
+ var out=new Array(media.length),next=0,active=0,finished=0,LIMIT=5;
+ function pump(){
+  while(active<LIMIT&&next<media.length){
+   (function(i){
+    active++;next++;
+    resolveAnimeTmdb(media[i],start+i+1,g,function(card){
+     out[i]=card;
+     active--;finished++;
+     if(finished===media.length)done(out.filter(Boolean));
+     else pump();
+    });
+   })(next);
+  }
+ }
+ pump();
+}
+function animePreviewSpec(g){
+ var t=String(g&&g.title||'');
+ if(t.indexOf('🔥 TOP 100 аниме сейчас')===0)return{q:'Solo Leveling',year:2024,type:'tv'};
+ if(t.indexOf('🏆 TOP 100 аниме')===0)return{q:'Fullmetal Alchemist: Brotherhood',year:2009,type:'tv'};
+ if(t.indexOf('🆕 Новинки')===0)return{q:'Frieren: Beyond Journey’s End',year:2023,type:'tv'};
+ if(t.indexOf('✅ Лучшие завершённые')===0)return{q:'Attack on Titan',year:2013,type:'tv'};
+ if(t.indexOf('🎬 Лучшие аниме-фильмы')===0)return{q:'Spirited Away',year:2001,type:'movie'};
+ if(t.indexOf('⚔️ Экшен')===0)return{q:'Demon Slayer: Kimetsu no Yaiba',year:2019,type:'tv'};
+ if(t.indexOf('🧠 Психология')===0)return{q:'Death Note',year:2006,type:'tv'};
+ if(t.indexOf('👻 Хоррор')===0)return{q:'Another',year:2012,type:'tv'};
+ if(t.indexOf('❤️ Романтика')===0)return{q:'Your Lie in April',year:2014,type:'tv'};
+ if(t.indexOf('😂 Комедия')===0)return{q:'Spy x Family',year:2022,type:'tv'};
+ if(t.indexOf('🚀 Sci-Fi')===0)return{q:'Steins;Gate',year:2011,type:'tv'};
+ if(t.indexOf('🤖 Меха')===0)return{q:'Neon Genesis Evangelion',year:1995,type:'tv'};
+ if(t.indexOf('🌀 Исекай')===0)return{q:'Re:ZERO -Starting Life in Another World-',year:2016,type:'tv'};
+ if(t.indexOf('🥋 Боевые искусства')===0)return{q:'Baki',year:2018,type:'tv'};
+ if(t.indexOf('🕵 Детектив')===0)return{q:'Monster',year:2004,type:'tv'};
+ if(t.indexOf('🌑 Тёмное')===0)return{q:'Berserk',year:1997,type:'tv'};
+ return null;
+}
 function anilistDynamic(g,page,ok,err){
  var q='query($page:Int,$perPage:Int,$sort:[MediaSort],$genre:String,$tag:String,$status:MediaStatus,$format:MediaFormat,$season:MediaSeason,$seasonYear:Int){Page(page:$page,perPage:$perPage){pageInfo{currentPage lastPage hasNextPage}media(type:ANIME,isAdult:false,sort:$sort,genre:$genre,tag:$tag,status:$status,format:$format,season:$season,seasonYear:$seasonYear){id title{romaji english native}startDate{year month day}averageScore meanScore popularity trending status format episodes genres description(asHtml:false)coverImage{extraLarge large medium}}}}';
  var season=g.seasonal?animeSeasonNow():null;
@@ -981,12 +1087,15 @@ function anilistDynamic(g,page,ok,err){
  anilistRequest(q,vars,function(data){
   var media=data&&data.Page&&data.Page.media||[];
   var start=(page-1)*20;
-  ok({
-   secuses:true,
-   page:page,
-   total_pages:g.pages||5,
-   total_results:(g.pages||5)*20,
-   results:media.map(function(m,i){return animeToCard(m,start+i+1,g)})
+
+  mapAnimeTmdb(media,start,g,function(cards){
+   ok({
+    secuses:true,
+    page:page,
+    total_pages:g.pages||5,
+    total_results:(g.pages||5)*20,
+    results:cards
+   });
   });
  },err);
 }
@@ -1160,9 +1269,11 @@ function component(o){
   if(!element)return;
 
   if(element.anilist_id){
-   card.onEnter=function(target,data){
-    openAnimeCard(data||element);
-   };
+   if(!element.anime_tmdb_resolved){
+    card.onEnter=function(target,data){
+     openAnimeCard(data||element);
+    };
+   }
    card.onMenuShow=function(menu,target,data){
     menu.unshift({
      title:'⭐ AniList '+((data||element).anilist_score?((data||element).anilist_score+'/100'):'—')+' · рейтинг и отзывы',
@@ -1707,21 +1818,19 @@ function groupPreview(ref,done){
  }
 
  if(g.dynamic==='anilist'){
-  try{
-   var q='query($page:Int,$perPage:Int,$sort:[MediaSort],$genre:String,$tag:String,$status:MediaStatus,$format:MediaFormat,$season:MediaSeason,$seasonYear:Int){Page(page:$page,perPage:$perPage){media(type:ANIME,isAdult:false,sort:$sort,genre:$genre,tag:$tag,status:$status,format:$format,season:$season,seasonYear:$seasonYear){id title{romaji english native}startDate{year}averageScore meanScore popularity trending status format episodes genres description(asHtml:false)coverImage{extraLarge large medium}}}}';
-   var season=g.seasonal?animeSeasonNow():null;
-   anilistRequest(q,{
-    page:1,perPage:1,sort:g.sort||['POPULARITY_DESC'],genre:g.genre||null,tag:g.tag||null,
-    status:g.status||null,format:g.format||null,season:season?season.season:null,seasonYear:season?season.year:null
-   },function(d){
-    var m=d&&d.Page&&d.Page.media&&d.Page.media[0];
-    if(!m)return done(fallbackPreview(ref.title||g.title,ref));
-    var x=animeToCard(m,1,g);
-    setPreviewLabel(x,ref.title||g.title);
-    x.bc_action='group';x.bc_ci=ref.ci;x.bc_gi=ref.gi;
-    done(x);
-   },function(){done(fallbackPreview(ref.title||g.title,ref))});
-  }catch(e){done(fallbackPreview(ref.title||g.title,ref))}
+  var spec=animePreviewSpec(g);
+  if(!spec)return done(fallbackPreview(ref.title||g.title,ref));
+
+  search(spec,spec.type,function(r){
+   if(!r)return done(fallbackPreview(ref.title||g.title,ref));
+   var x=cloneCard(r);
+   x.source='tmdb';
+   setPreviewLabel(x,ref.title||g.title);
+   x.bc_action='group';
+   x.bc_ci=ref.ci;
+   x.bc_gi=ref.gi;
+   done(x);
+  });
   return;
  }
 
