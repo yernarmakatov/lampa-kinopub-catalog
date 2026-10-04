@@ -1,12 +1,12 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready_170||typeof Lampa==='undefined')return;
+if(window.yernar_big_collections_ready_180||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.7.0';
-var COMPONENT='yernar_big_collection_list_v170';
-var HOME_COMPONENT='yernar_big_collections_home_v170';
-var HUB_COMPONENT='yernar_big_collections_hub_v170';
+var VERSION='1.8.0';
+var COMPONENT='yernar_big_collection_list_v180';
+var HOME_COMPONENT='yernar_big_collections_home_v180';
+var HUB_COMPONENT='yernar_big_collections_hub_v180';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
@@ -499,6 +499,139 @@ C('40. ANIME — рейтинги, тренды и жанры',[
  {title:'🥋 Боевые искусства',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Martial Arts',pages:5,label:'MARTIAL ARTS'},
  {title:'🕵 Детектив / Mystery',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Mystery',pages:5,label:'MYSTERY ANIME'},
  {title:'🌑 Тёмное фэнтези',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Dark Fantasy',pages:5,label:'DARK FANTASY'}
+]),
+C('41. ANIME — большие франшизы и порядок просмотра',[
+ G('Dragon Ball — основная линия',[
+  'Dragon Ball|1986|tv|Dragon Ball',
+  'Dragon Ball Z|1989|tv|Dragon Ball Z',
+  'Dragon Ball GT|1996|tv|Dragon Ball GT',
+  'Dragon Ball Z Kai|2009|tv|Dragon Ball Z Kai',
+  'Dragon Ball Z: Battle of Gods|2013|movie|Dragon Ball Z: Битва богов',
+  'Dragon Ball Z: Resurrection F|2015|movie|Dragon Ball Z: Воскрешение F',
+  'Dragon Ball Super|2015|tv|Dragon Ball Super',
+  'Dragon Ball Super: Broly|2018|movie|Dragon Ball Super: Broly',
+  'Dragon Ball Super: Super Hero|2022|movie|Dragon Ball Super: Super Hero',
+  'Dragon Ball Daima|2024|tv|Dragon Ball Daima'
+ ]),
+ G('Naruto / Boruto — основная линия',[
+  'Naruto|2002|tv|Наруто',
+  'Naruto Shippuden|2007|tv|Наруто: Ураганные хроники',
+  'The Last: Naruto the Movie|2014|movie|Последний: Наруто',
+  'Boruto: Naruto the Movie|2015|movie|Боруто: Наруто. Фильм',
+  'Boruto: Naruto Next Generations|2017|tv|Боруто: Новое поколение Наруто'
+ ]),
+ G('Bleach — основная линия',[
+  'Bleach|2004|tv|Блич',
+  'Bleach the Movie: Memories of Nobody|2006|movie|Блич: Воспоминания ни о ком',
+  'Bleach the Movie: The DiamondDust Rebellion|2007|movie|Блич: Восстание алмазной пыли',
+  'Bleach the Movie: Fade to Black|2008|movie|Блич: Исчезая во тьме',
+  'Bleach the Movie: Hell Verse|2010|movie|Блич: Глава ада',
+  'Bleach: Thousand-Year Blood War|2022|tv|Блич: Тысячелетняя кровавая война'
+ ]),
+ G('Attack on Titan',[
+  'Attack on Titan|2013|tv|Атака титанов',
+  'Attack on Titan: Crimson Bow and Arrow|2014|movie|Атака титанов: Багровый лук и стрела',
+  'Attack on Titan: Wings of Freedom|2015|movie|Атака титанов: Крылья свободы',
+  'Attack on Titan: Roar of Awakening|2018|movie|Атака титанов: Рёв пробуждения',
+  'Attack on Titan: Chronicle|2020|movie|Атака титанов: Хроника'
+ ]),
+ G('Demon Slayer',[
+  'Demon Slayer: Kimetsu no Yaiba|2019|tv|Клинок, рассекающий демонов',
+  'Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train|2020|movie|Поезд «Бесконечный»',
+  'Demon Slayer: Kimetsu no Yaiba -To the Swordsmith Village-|2023|movie|В деревню кузнецов',
+  'Demon Slayer: Kimetsu no Yaiba -To the Hashira Training-|2024|movie|На тренировку столпов'
+ ]),
+ G('Jujutsu Kaisen',[
+  'Jujutsu Kaisen|2020|tv|Магическая битва',
+  'Jujutsu Kaisen 0|2021|movie|Магическая битва 0'
+ ]),
+ G('My Hero Academia',[
+  'My Hero Academia|2016|tv|Моя геройская академия',
+  'My Hero Academia: Two Heroes|2018|movie|Два героя',
+  'My Hero Academia: Heroes Rising|2019|movie|Восхождение героев',
+  'My Hero Academia: World Heroes Mission|2021|movie|Миссия мировых героев',
+  'My Hero Academia: You’re Next|2024|movie|Ты следующий'
+ ]),
+ G('Evangelion — сериал + End + Rebuild',[
+  'Neon Genesis Evangelion|1995|tv|Евангелион',
+  'Neon Genesis Evangelion: The End of Evangelion|1997|movie|Конец Евангелиона',
+  'Evangelion: 1.0 You Are (Not) Alone|2007|movie|Евангелион 1.11',
+  'Evangelion: 2.0 You Can (Not) Advance|2009|movie|Евангелион 2.22',
+  'Evangelion: 3.0 You Can (Not) Redo|2012|movie|Евангелион 3.33',
+  'Evangelion: 3.0+1.0 Thrice Upon a Time|2021|movie|Евангелион 3.0+1.01'
+ ]),
+ G('Ghost in the Shell',[
+  'Ghost in the Shell|1995|movie|Призрак в доспехах',
+  'Ghost in the Shell: Stand Alone Complex|2002|tv|Призрак в доспехах: Синдром одиночки',
+  'Ghost in the Shell 2: Innocence|2004|movie|Призрак в доспехах 2: Невинность',
+  'Ghost in the Shell: Stand Alone Complex - Solid State Society|2006|movie|Синдром одиночки: Сообщество прочного государства',
+  'Ghost in the Shell: Arise|2013|tv|Призрак в доспехах: У истоков',
+  'Ghost in the Shell: SAC_2045|2020|tv|Призрак в доспехах: SAC_2045'
+ ]),
+ G('Fate — рекомендуемый порядок',[
+  'Fate/stay night|2006|tv|Fate/stay night',
+  'Fate/Zero|2011|tv|Fate/Zero',
+  'Fate/stay night: Unlimited Blade Works|2014|tv|Unlimited Blade Works',
+  'Fate/stay night: Heaven’s Feel I. presage flower|2017|movie|Heaven’s Feel I',
+  'Fate/stay night: Heaven’s Feel II. lost butterfly|2019|movie|Heaven’s Feel II',
+  'Fate/stay night: Heaven’s Feel III. spring song|2020|movie|Heaven’s Feel III'
+ ]),
+ G('Fullmetal Alchemist',[
+  'Fullmetal Alchemist|2003|tv|Стальной алхимик',
+  'Fullmetal Alchemist the Movie: Conqueror of Shamballa|2005|movie|Завоеватель Шамбалы',
+  'Fullmetal Alchemist: Brotherhood|2009|tv|Стальной алхимик: Братство',
+  'Fullmetal Alchemist: The Sacred Star of Milos|2011|movie|Священная звезда Милоса'
+ ]),
+ G('Berserk',[
+  'Berserk|1997|tv|Берсерк',
+  'Berserk: The Golden Age Arc I - The Egg of the King|2012|movie|Золотой век I',
+  'Berserk: The Golden Age Arc II - The Battle for Doldrey|2012|movie|Золотой век II',
+  'Berserk: The Golden Age Arc III - The Advent|2013|movie|Золотой век III',
+  'Berserk|2016|tv|Берсерк — 2016',
+  'Berserk: The Golden Age Arc – Memorial Edition|2022|tv|Золотой век: Мемориальное издание'
+ ]),
+ G('Hunter x Hunter',[
+  'Hunter x Hunter|1999|tv|Hunter x Hunter — 1999',
+  'Hunter x Hunter|2011|tv|Hunter x Hunter — 2011',
+  'Hunter x Hunter: Phantom Rouge|2013|movie|Призрачная алость',
+  'Hunter x Hunter: The Last Mission|2013|movie|Последняя миссия'
+ ])
+]),
+C('42. Казахстан 🇰🇿 — кино и сериалы',[
+ {title:'🔥 Казахстанские фильмы — популярные',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?with_origin_country=KZ&sort_by=popularity.desc',media:'movie',pages:5,label:'KAZAKHSTAN'},
+ {title:'⭐ Казахстанские фильмы — лучшие по рейтингу',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?with_origin_country=KZ&vote_count.gte=10&sort_by=vote_average.desc',media:'movie',pages:5,label:'KAZAKHSTAN TOP'},
+ {title:'📺 Казахстанские сериалы',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=KZ&sort_by=popularity.desc',media:'tv',pages:5,label:'KAZAKHSTAN TV'},
+ G('Казахстанское кино — избранное',[
+  'Tulpan|2008|movie|Тюльпан',
+  'Harmony Lessons|2013|movie|Уроки гармонии',
+  'The Owners|2014|movie|Хозяева',
+  'The Gentle Indifference of the World|2018|movie|Ласковое безразличие мира',
+  'Tomiris|2019|movie|Томирис',
+  'A Dark, Dark Man|2019|movie|Чёрный, чёрный человек',
+  'Yellow Cat|2020|movie|Жёлтая кошка'
+ ])
+]),
+C('43. Режиссёры — фильмографии по годам',[
+ {title:'Кристофер Нолан',items:[],dynamic:'director',director:'Christopher Nolan',director_ru:'Кристофер Нолан'},
+ {title:'Квентин Тарантино',items:[],dynamic:'director',director:'Quentin Tarantino',director_ru:'Квентин Тарантино'},
+ {title:'Дэвид Финчер',items:[],dynamic:'director',director:'David Fincher',director_ru:'Дэвид Финчер'},
+ {title:'Мартин Скорсезе',items:[],dynamic:'director',director:'Martin Scorsese',director_ru:'Мартин Скорсезе'},
+ {title:'Стивен Спилберг',items:[],dynamic:'director',director:'Steven Spielberg',director_ru:'Стивен Спилберг'},
+ {title:'Джеймс Кэмерон',items:[],dynamic:'director',director:'James Cameron',director_ru:'Джеймс Кэмерон'},
+ {title:'Ридли Скотт',items:[],dynamic:'director',director:'Ridley Scott',director_ru:'Ридли Скотт'},
+ {title:'Дени Вильнёв',items:[],dynamic:'director',director:'Denis Villeneuve',director_ru:'Дени Вильнёв'},
+ {title:'Гай Ричи',items:[],dynamic:'director',director:'Guy Ritchie',director_ru:'Гай Ричи'},
+ {title:'Роберт Родригес',items:[],dynamic:'director',director:'Robert Rodriguez',director_ru:'Роберт Родригес'},
+ {title:'Пак Чхан-ук',items:[],dynamic:'director',director:'Park Chan-wook',director_ru:'Пак Чхан-ук'},
+ {title:'Пон Джун-хо',items:[],dynamic:'director',director:'Bong Joon-ho',director_ru:'Пон Джун-хо'},
+ {title:'Гильермо дель Торо',items:[],dynamic:'director',director:'Guillermo del Toro',director_ru:'Гильермо дель Торо'},
+ {title:'Даррен Аронофски',items:[],dynamic:'director',director:'Darren Aronofsky',director_ru:'Даррен Аронофски'},
+ {title:'Дэвид Линч',items:[],dynamic:'director',director:'David Lynch',director_ru:'Дэвид Линч'}
+]),
+C('44. Фильмы — TOP 100 сейчас',[
+ {title:'🔥 TOP 100 фильмов в тренде сейчас',items:[],dynamic:'tmdb',tmdb_url:'trending/movie/week',media:'movie',pages:5,label:'MOVIES TRENDING'},
+ {title:'⭐ TOP 100 фильмов по рейтингу',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?vote_count.gte=500&sort_by=vote_average.desc',media:'movie',pages:5,label:'MOVIES TOP'},
+ {title:'🆕 Популярные новые фильмы',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?sort_by=popularity.desc&primary_release_date.gte=2025-01-01',media:'movie',pages:5,label:'NEW MOVIES'}
 ])
 ];
 
