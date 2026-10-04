@@ -3,7 +3,7 @@
 if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready=true;
 
-var VERSION='1.6.0';
+var VERSION='1.6.1';
 var COMPONENT='yernar_big_collection_list';
 var HOME_COMPONENT='yernar_big_collections_home';
 var HUB_COMPONENT='yernar_big_collections_hub';
@@ -407,6 +407,80 @@ C('36. Легенды экшена — фильмографии по годам'
  {title:'Джерард Батлер — все фильмы',items:[],dynamic:'actor',actor:'Gerard Butler',actor_ru:'Джерард Батлер'},
  {title:'Дензел Вашингтон — все фильмы',items:[],dynamic:'actor',actor:'Denzel Washington',actor_ru:'Дензел Вашингтон'},
  {title:'Сэмюэл Л. Джексон — все фильмы',items:[],dynamic:'actor',actor:'Samuel L. Jackson',actor_ru:'Сэмюэл Л. Джексон'}
+]),
+C('37. ФБР и спецрасследования — сериалы',[
+ G('FBI Universe / Dick Wolf',[
+  'FBI|2018|tv|FBI',
+  'FBI: Most Wanted|2020|tv|FBI: Самые разыскиваемые',
+  'FBI: International|2021|tv|FBI: За границей'
+ ]),
+ G('Профайлеры ФБР и серийные убийцы',[
+  'Criminal Minds|2005|tv|Мыслить как преступник',
+  'Mindhunter|2017|tv|Охотник за разумом',
+  'Hannibal|2013|tv|Ганнибал',
+  'The Following|2013|tv|Последователи',
+  'Clarice|2021|tv|Кларисса',
+  'Manhunt|2017|tv|Охота / Manhunt',
+  'Profiler|1996|tv|Профайлер',
+  'The Inside|2005|tv|Внутри'
+ ]),
+ G('Агенты, оперативники и спецгруппы',[
+  'The Blacklist|2013|tv|Чёрный список',
+  'Quantico|2015|tv|Куантико',
+  'Fringe|2008|tv|Грань',
+  'White Collar|2009|tv|Белый воротничок',
+  'Numb3rs|2005|tv|Числа',
+  'Bones|2005|tv|Кости',
+  'Graceland|2013|tv|Грейсленд',
+  'The Night Agent|2023|tv|Ночной агент',
+  'Blindspot|2015|tv|Слепая зона',
+  'Limitless|2015|tv|Области тьмы'
+ ])
+]),
+C('38. Сериалы — TOP 100 сейчас',[
+ {title:'🔥 TOP 100 сериалов в тренде сейчас',items:[],dynamic:'tmdb',tmdb_url:'trending/tv/week',media:'tv',pages:5,label:'TOP СЕЙЧАС'},
+ {title:'⭐ TOP 100 сериалов по рейтингу',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?vote_count.gte=300&sort_by=vote_average.desc',media:'tv',pages:5,label:'ВЫСОКИЙ РЕЙТИНГ'}
+]),
+C('39. Корея — лучшие сериалы и фильмы',[
+ {title:'🇰🇷 K-Drama — популярные сейчас',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_original_language=ko&sort_by=popularity.desc',media:'tv',pages:5,label:'K-DRAMA'},
+ {title:'⭐ K-Drama — лучшие по рейтингу',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_original_language=ko&vote_count.gte=100&sort_by=vote_average.desc',media:'tv',pages:5,label:'K-DRAMA TOP'},
+ {title:'🎬 Корейские фильмы — популярные сейчас',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?with_original_language=ko&sort_by=popularity.desc',media:'movie',pages:5,label:'K-MOVIE'},
+ {title:'🏆 Корейские фильмы — лучшие по рейтингу',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?with_original_language=ko&vote_count.gte=150&sort_by=vote_average.desc',media:'movie',pages:5,label:'K-MOVIE TOP'},
+ G('Корейские триллеры и криминал — избранное',[
+  'Oldboy|2003|movie|Олдбой',
+  'Memories of Murder|2003|movie|Воспоминания об убийстве',
+  'The Chaser|2008|movie|Преследователь',
+  'I Saw the Devil|2010|movie|Я видел дьявола',
+  'The Man from Nowhere|2010|movie|Человек из ниоткуда',
+  'The Yellow Sea|2010|movie|Жёлтое море',
+  'New World|2013|movie|Новый мир',
+  'A Hard Day|2014|movie|Трудный день',
+  'The Handmaiden|2016|movie|Служанка',
+  'The Wailing|2016|movie|Вопль',
+  'The Outlaws|2017|movie|Криминальный город',
+  'Forgotten|2017|movie|Забытый',
+  'Burning|2018|movie|Пылающий',
+  'Parasite|2019|movie|Паразиты',
+  'The Call|2020|movie|Звонок из прошлого',
+  'Decision to Leave|2022|movie|Решение уйти',
+  'The Roundup|2022|movie|Криминальный город 2'
+ ]),
+ G('K-Drama — проверенная классика и хиты',[
+  'Squid Game|2021|tv|Игра в кальмара',
+  'Kingdom|2019|tv|Королевство',
+  'Crash Landing on You|2019|tv|Аварийная посадка любви',
+  'My Mister|2018|tv|Мой мистер',
+  'Reply 1988|2015|tv|Ответ в 1988',
+  'Signal|2016|tv|Сигнал',
+  'Stranger|2017|tv|Незнакомец',
+  'Flower of Evil|2020|tv|Цветок зла',
+  'Vincenzo|2021|tv|Винченцо',
+  'Move to Heaven|2021|tv|На пути к небесам',
+  'Weak Hero Class 1|2022|tv|Слабый герой',
+  'The Glory|2022|tv|Слава',
+  'Moving|2023|tv|Движение',
+  'A Shop for Killers|2024|tv|Магазин для убийц'
+ ])
 ])
 ];
 
