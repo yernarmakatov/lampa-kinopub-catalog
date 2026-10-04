@@ -1199,7 +1199,7 @@ function showCategory(ci){
 function showMain(){
  var items=CATS.map(function(c,i){return{title:c.title,i:i}});
  items.push({title:'🧹 Очистить кэш карточек',clear:true});
- Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
+ Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});Lampa.Storage.set('big_collections_director_ids_v1',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
 }
 
 /* ===================== COLLECTIONS HOME ===================== */
@@ -1359,6 +1359,9 @@ function hubTitle(kind){
   series:'СЕРИАЛЫ',
   korea:'КОРЕЯ',
   anime:'ANIME',
+  kazakhstan:'КАЗАХСТАН',
+  directors:'РЕЖИССЁРЫ',
+  movies:'ФИЛЬМЫ',
   horror:'ХОРРОР',
   scifi:'SCI-FI',
   action:'ЭКШЕН'
@@ -1383,6 +1386,9 @@ var HOME_TILES=[
  {id:'series',ico:'📺',title:'Сериалы',sub:'Саги и мини-сериалы'},
  {id:'korea',ico:'🇰🇷',title:'Корея',sub:'K-Drama и корейское кино'},
  {id:'anime',ico:'⛩️',title:'ANIME',sub:'TOP 100, жанры, отзывы'},
+ {id:'kazakhstan',ico:'🇰🇿',title:'Казахстан',sub:'Кино и сериалы'},
+ {id:'directors',ico:'🎥',title:'Режиссёры',sub:'Фильмографии по годам'},
+ {id:'movies',ico:'🍿',title:'Фильмы',sub:'TOP 100 и новинки'},
  {id:'horror',ico:'👻',title:'Хоррор',sub:'Культовые вселенные'},
  {id:'scifi',ico:'🚀',title:'Sci-Fi',sub:'Космос, время, ИИ'},
  {id:'action',ico:'⚡',title:'Экшен',sub:'Боевики и агенты'},
@@ -1555,7 +1561,20 @@ function hubRowSpecs(kind){
    groupRef('40.','🥋 Боевые искусства','Боевые искусства'),
    groupRef('40.','🕵 Детектив','Mystery'),
    groupRef('40.','🌑 Тёмное','Тёмное фэнтези')
-  ])}
+  ])},
+  {title:'Большие аниме-франшизы',refs:refsFromCategory(catIndexStarts('41.'))}
+ ];
+
+ if(kind==='kazakhstan') return [
+  {title:'Казахстан 🇰🇿',refs:refsFromCategory(catIndexStarts('42.'))}
+ ];
+
+ if(kind==='directors') return [
+  {title:'Лучшие режиссёры',refs:refsFromCategory(catIndexStarts('43.'))}
+ ];
+
+ if(kind==='movies') return [
+  {title:'TOP 100 и новинки',refs:refsFromCategory(catIndexStarts('44.'))}
  ];
 
  if(kind==='horror') return [
@@ -1638,6 +1657,29 @@ function actorPreview(ref,g,done){
 function groupPreview(ref,done){
  var cat=CATS[ref.ci],g=cat&&cat.groups[ref.gi];
  if(!g)return done(fallbackPreview(ref.title||'Подборка',ref));
+
+ if(g.dynamic==='director'){
+  try{
+   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+   if(!src||!src.list)return done(fallbackPreview(ref.title||g.title,ref));
+   resolveDirectorId(g,src,function(personId){
+    src.list({url:'person/'+personId,page:1},function(p){
+     if(!p||!p.id)return done(fallbackPreview(ref.title||g.title,ref));
+     done({
+      id:p.id,
+      title:ref.title||g.director_ru||g.director,
+      profile_path:p.profile_path||'',
+      source:'tmdb',
+      gender:p.gender,
+      bc_action:'group',
+      bc_ci:ref.ci,
+      bc_gi:ref.gi
+     });
+    },function(){done(fallbackPreview(ref.title||g.title,ref))});
+   },function(){done(fallbackPreview(ref.title||g.title,ref))});
+  }catch(e){done(fallbackPreview(ref.title||g.title,ref))}
+  return;
+ }
 
  if(g.dynamic==='actor')return actorPreview(ref,g,done);
 
@@ -1769,6 +1811,9 @@ function hubPreviewRef(id){
   series:groupRef('38.','🔥 TOP 100 сериалов','Сериалы'),
   korea:groupRef('39.','🇰🇷 K-Drama — популярные сейчас','Корея'),
   anime:groupRef('40.','🔥 TOP 100 аниме сейчас','ANIME'),
+  kazakhstan:groupRef('42.','🔥 Казахстанские фильмы','Казахстан'),
+  directors:groupRef('43.','Кристофер Нолан','Режиссёры'),
+  movies:groupRef('44.','🔥 TOP 100 фильмов','Фильмы'),
   horror:groupRef('19.','Заклятие','Хоррор'),
   scifi:groupRef('3.','Бегущий по лезвию','Sci-Fi'),
   action:groupRef('16.','Миссия','Экшен'),
@@ -1817,6 +1862,24 @@ function homeRowSpecs(){
    groupRef('40.','🏆 TOP 100 аниме всех времён','TOP 100 всех времён'),
    groupRef('40.','🆕 Новинки','Новинки сезона'),
    groupRef('40.','🎬 Лучшие аниме-фильмы','Аниме-фильмы')
+  ])},
+  {title:'Фильмы сейчас',refs:cleanRefs([
+   groupRef('44.','🔥 TOP 100 фильмов','TOP 100 фильмов сейчас'),
+   groupRef('44.','⭐ TOP 100 фильмов','TOP 100 по рейтингу'),
+   groupRef('44.','🆕 Популярные новые','Новые фильмы')
+  ])},
+  {title:'Казахстан 🇰🇿',refs:cleanRefs([
+   groupRef('42.','🔥 Казахстанские фильмы','Популярные фильмы'),
+   groupRef('42.','⭐ Казахстанские фильмы','Лучшие фильмы'),
+   groupRef('42.','📺 Казахстанские сериалы','Сериалы'),
+   groupRef('42.','Казахстанское кино','Избранное')
+  ])},
+  {title:'Режиссёры',refs:cleanRefs([
+   groupRef('43.','Кристофер Нолан','Кристофер Нолан'),
+   groupRef('43.','Квентин Тарантино','Квентин Тарантино'),
+   groupRef('43.','Дэвид Финчер','Дэвид Финчер'),
+   groupRef('43.','Дени Вильнёв','Дени Вильнёв'),
+   groupRef('43.','Гай Ричи','Гай Ричи')
   ])},
   {title:'На одни выходные',refs:HOME_SHELVES[4].items}
  ];
