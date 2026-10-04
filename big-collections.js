@@ -760,6 +760,76 @@ function actorCredits(g,ok,err){
   },err);
  }catch(e){if(err)err()}
 }
+
+function directorIdCache(){
+ var x=Lampa.Storage.get('big_collections_director_ids_v1',{});
+ return x&&typeof x==='object'?x:{};
+}
+function saveDirectorId(name,id){
+ var x=directorIdCache();x[name]=id;Lampa.Storage.set('big_collections_director_ids_v1',x);
+}
+function resolveDirectorId(g,src,ok,err){
+ var cached=directorIdCache()[g.director];
+ if(cached)return ok(cached);
+
+ src.list({url:'search/person',query:encodeURIComponent(g.director),page:1},function(d){
+  var rows=(d&&d.results)||[],target=norm(g.director),exact=[];
+  rows.forEach(function(p){if(norm(p.name)===target)exact.push(p)});
+  var pool=exact.length?exact:rows;
+  pool.sort(function(a,b){return (parseFloat(b.popularity)||0)-(parseFloat(a.popularity)||0)});
+  var p=pool[0];
+  if(!p||!p.id)return err&&err();
+  saveDirectorId(g.director,p.id);
+  ok(p.id);
+ },err);
+}
+function directorCredits(g,ok,err){
+ try{
+  var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+  if(!src||!src.list)return err&&err();
+
+  resolveDirectorId(g,src,function(personId){
+   src.list({url:'person/'+personId+'/movie_credits',page:1},function(d){
+    var arr=(d&&d.crew)||[],now=new Date(),seen={};
+
+    arr=arr.filter(function(r){
+     if(!r||!r.id)return false;
+     if(String(r.job||'').toLowerCase()!=='director')return false;
+
+     var dt=r.release_date?new Date(r.release_date+'T00:00:00'):null;
+     if(dt&&!isNaN(dt.getTime())&&dt>now)return false;
+
+     var k=String(r.id);
+     if(seen[k])return false;
+     seen[k]=1;
+     return true;
+    });
+
+    arr.sort(function(a,b){
+     var da=String(a.release_date||'9999-99-99');
+     var db=String(b.release_date||'9999-99-99');
+     if(da<db)return-1;
+     if(da>db)return 1;
+     return (a.id||0)-(b.id||0);
+    });
+
+    if(!arr.length)return err&&err();
+    ok(arr);
+   },err);
+  },err);
+ }catch(e){if(err)err()}
+}
+function decorateDynamicDirector(r,num,g){
+ var x=JSON.parse(JSON.stringify(r));
+ x.source='tmdb';
+ var y=yr(x),name=x.title||x.original_title||'Без названия';
+ var p=(num<10?'00':num<100?'0':'')+num;
+ x.title=p+' · '+name+(y?' ('+y+')':'');
+ if(x.name)delete x.name;
+ x.overview=(g.director_ru||g.director)+' · режиссёрская фильмография'+
+  (x.overview?'\\n\\n'+x.overview:'');
+ return x;
+}
 function decorateDynamicActor(r,num,g){
  var x=JSON.parse(JSON.stringify(r));
  x.source='tmdb';
@@ -1016,6 +1086,19 @@ function fetchList(o,ok,err){
   return anilistDynamic(g,page,ok,err);
  }
 
+ if(g.dynamic==='director'){
+  return directorCredits(g,function(all){
+    var start=(page-1)*PER_PAGE,rows=all.slice(start,start+PER_PAGE);
+    ok({
+      secuses:true,
+      page:page,
+      total_pages:Math.max(1,Math.ceil(all.length/PER_PAGE)),
+      total_results:all.length,
+      results:rows.map(function(r,i){return decorateDynamicDirector(r,start+i+1,g)})
+    });
+  },err);
+ }
+
  if(g.dynamic==='actor'){
   return actorCredits(g,function(all){
     var start=(page-1)*PER_PAGE,rows=all.slice(start,start+PER_PAGE);
@@ -1035,24 +1118,72 @@ function fetchList(o,ok,err){
  function pump(){while(active<LIM&&next<rows.length)(function(i){active++;next++;resolve(rows[i],start+i+1,function(r){out[i]=r;active--;fin++;if(fin===rows.length)ok({secuses:true,page:page,total_pages:Math.ceil(g.items.length/PER_PAGE),total_results:g.items.length,results:out.filter(Boolean)});else pump()})})(next)}
  pump();
 }
+
+function showTmdbInfo(data){
+ try{
+  var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+  if(!src||!src.list)return Lampa.Noty.show('Отзывы TMDB недоступны');
+  var type=data.name?'tv':'movie';
+  src.list({url:type+'/'+data.id+'/reviews',page:1},function(d){
+   var rows=(d&&d.results)||[];
+   var html='<div style="padding:1em 1.2em;line-height:1.45">'+
+    '<div><b>TMDB:</b> '+(data.vote_average?Number(data.vote_average).toFixed(1)+'/10':'—')+
+    (data.vote_count?' · '+data.vote_count+' голосов':'')+'</div>';
+
+   if(rows.length){
+    html+='<div style="font-size:1.15em;font-weight:700;margin-top:1.2em">Отзывы TMDB</div>';
+    rows.slice(0,5).forEach(function(r){
+     var txt=htmlPlain(r.content||'');
+     if(txt.length>550)txt=txt.slice(0,550)+'…';
+     html+='<div style="padding:.7em 0;border-top:1px solid rgba(255,255,255,.12)">'+
+      '<b>'+$('<span>').text(r.author||'Пользователь').html()+'</b>'+
+      '<div style="margin-top:.3em;opacity:.86">'+$('<div>').text(txt).html()+'</div></div>';
+    });
+   }else html+='<div style="margin-top:1em;opacity:.65">Пользовательских отзывов TMDB пока нет.</div>';
+
+   html+='</div>';
+   Lampa.Modal.open({
+    title:'⭐ Рейтинг и отзывы',
+    html:$(html),
+    size:'large',
+    mask:true,
+    onBack:function(){Lampa.Modal.close();try{Lampa.Controller.toggle('content')}catch(e){}}
+   });
+  },function(){Lampa.Noty.show('Не удалось загрузить отзывы TMDB')});
+ }catch(e){Lampa.Noty.show('Не удалось открыть отзывы')}
+}
 function component(o){
  var c=new Lampa.InteractionCategory(o);
  c.create=function(){fetchList(o,this.build.bind(this),this.empty.bind(this))};
  c.nextPageReuest=function(n,ok,er){n.cat=o.cat;n.group=o.group;fetchList(n,ok.bind(c),er.bind(c))};
  c.cardRender=function(object,element,card){
-  if(!element||!element.anilist_id)return;
+  if(!element)return;
 
-  card.onEnter=function(target,data){
-   openAnimeCard(data||element);
-  };
+  if(element.anilist_id){
+   card.onEnter=function(target,data){
+    openAnimeCard(data||element);
+   };
+   card.onMenuShow=function(menu,target,data){
+    menu.unshift({
+     title:'⭐ AniList '+((data||element).anilist_score?((data||element).anilist_score+'/100'):'—')+' · рейтинг и отзывы',
+     anilist_info:true
+    });
+   };
+   card.onMenuSelect=function(a,target,data){
+    if(a&&a.anilist_info)showAnimeInfo(data||element);
+   };
+   return;
+  }
+
   card.onMenuShow=function(menu,target,data){
+   var d=data||element;
    menu.unshift({
-    title:'⭐ AniList '+((data||element).anilist_score?((data||element).anilist_score+'/100'):'—')+' · рейтинг и отзывы',
-    anilist_info:true
+    title:'⭐ TMDB '+(d.vote_average?Number(d.vote_average).toFixed(1)+'/10':'—')+' · рейтинг и отзывы',
+    tmdb_info:true
    });
   };
   card.onMenuSelect=function(a,target,data){
-   if(a&&a.anilist_info)showAnimeInfo(data||element);
+   if(a&&a.tmdb_info)showTmdbInfo(data||element);
   };
  };
  return c;
@@ -1509,6 +1640,29 @@ function groupPreview(ref,done){
  if(!g)return done(fallbackPreview(ref.title||'Подборка',ref));
 
  if(g.dynamic==='actor')return actorPreview(ref,g,done);
+
+ if(g.dynamic==='director'){
+  try{
+   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
+   if(!src||!src.list)return done(fallbackPreview(ref.title||g.title,ref));
+   resolveDirectorId(g,src,function(personId){
+    src.list({url:'person/'+personId,page:1},function(p){
+     if(!p||!p.id)return done(fallbackPreview(ref.title||g.title,ref));
+     done({
+      id:p.id,
+      title:ref.title||g.director_ru||g.director,
+      profile_path:p.profile_path||'',
+      source:'tmdb',
+      gender:p.gender,
+      bc_action:'group',
+      bc_ci:ref.ci,
+      bc_gi:ref.gi
+     });
+    },function(){done(fallbackPreview(ref.title||g.title,ref))});
+   },function(){done(fallbackPreview(ref.title||g.title,ref))});
+  }catch(e){done(fallbackPreview(ref.title||g.title,ref))}
+  return;
+ }
 
  if(g.dynamic==='anilist'){
   try{
