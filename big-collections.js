@@ -1,12 +1,12 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready_183||typeof Lampa==='undefined')return;
+if(window.yernar_big_collections_ready_184||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.8.3';
-var COMPONENT='yernar_big_collection_list_v183';
-var HOME_COMPONENT='yernar_big_collections_home_v183';
-var HUB_COMPONENT='yernar_big_collections_hub_v183';
+var VERSION='1.8.4';
+var COMPONENT='yernar_big_collection_list_v184';
+var HOME_COMPONENT='yernar_big_collections_home_v184';
+var HUB_COMPONENT='yernar_big_collections_hub_v184';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v4';
 
@@ -679,21 +679,21 @@ C('42. Казахстан 🇰🇿 — кино и сериалы',[
  ])
 ]),
 C('43. Режиссёры — фильмографии по годам',[
- {title:'Кристофер Нолан',items:[],dynamic:'director',director:'Christopher Nolan',director_ru:'Кристофер Нолан',person_id:525},
- {title:'Квентин Тарантино',items:[],dynamic:'director',director:'Quentin Tarantino',director_ru:'Квентин Тарантино',person_id:138},
- {title:'Дэвид Финчер',items:[],dynamic:'director',director:'David Fincher',director_ru:'Дэвид Финчер',person_id:7467},
- {title:'Мартин Скорсезе',items:[],dynamic:'director',director:'Martin Scorsese',director_ru:'Мартин Скорсезе',person_id:1032},
- {title:'Стивен Спилберг',items:[],dynamic:'director',director:'Steven Spielberg',director_ru:'Стивен Спилберг',person_id:488},
- {title:'Джеймс Кэмерон',items:[],dynamic:'director',director:'James Cameron',director_ru:'Джеймс Кэмерон',person_id:2710},
- {title:'Ридли Скотт',items:[],dynamic:'director',director:'Ridley Scott',director_ru:'Ридли Скотт',person_id:578},
- {title:'Дени Вильнёв',items:[],dynamic:'director',director:'Denis Villeneuve',director_ru:'Дени Вильнёв',person_id:137427},
- {title:'Гай Ричи',items:[],dynamic:'director',director:'Guy Ritchie',director_ru:'Гай Ричи',person_id:956},
- {title:'Роберт Родригес',items:[],dynamic:'director',director:'Robert Rodriguez',director_ru:'Роберт Родригес',person_id:2294},
- {title:'Пак Чхан-ук',items:[],dynamic:'director',director:'Park Chan-wook',director_ru:'Пак Чхан-ук',person_id:10099},
- {title:'Пон Джун-хо',items:[],dynamic:'director',director:'Bong Joon-ho',director_ru:'Пон Джун-хо',person_id:21684},
- {title:'Гильермо дель Торо',items:[],dynamic:'director',director:'Guillermo del Toro',director_ru:'Гильермо дель Торо',person_id:10828},
- {title:'Даррен Аронофски',items:[],dynamic:'director',director:'Darren Aronofsky',director_ru:'Даррен Аронофски',person_id:6431},
- {title:'Дэвид Линч',items:[],dynamic:'director',director:'David Lynch',director_ru:'Дэвид Линч',person_id:5602}
+ {title:'Кристофер Нолан',items:[],dynamic:'director',director:'Christopher Nolan',director_ru:'Кристофер Нолан',person_id:525,preview_q:'Inception',preview_year:2010},
+ {title:'Квентин Тарантино',items:[],dynamic:'director',director:'Quentin Tarantino',director_ru:'Квентин Тарантино',person_id:138,preview_q:'Pulp Fiction',preview_year:1994},
+ {title:'Дэвид Финчер',items:[],dynamic:'director',director:'David Fincher',director_ru:'Дэвид Финчер',person_id:7467,preview_q:'Fight Club',preview_year:1999},
+ {title:'Мартин Скорсезе',items:[],dynamic:'director',director:'Martin Scorsese',director_ru:'Мартин Скорсезе',person_id:1032,preview_q:'GoodFellas',preview_year:1990},
+ {title:'Стивен Спилберг',items:[],dynamic:'director',director:'Steven Spielberg',director_ru:'Стивен Спилберг',person_id:488,preview_q:'Schindler\'s List',preview_year:1993},
+ {title:'Джеймс Кэмерон',items:[],dynamic:'director',director:'James Cameron',director_ru:'Джеймс Кэмерон',person_id:2710,preview_q:'Titanic',preview_year:1997},
+ {title:'Ридли Скотт',items:[],dynamic:'director',director:'Ridley Scott',director_ru:'Ридли Скотт',person_id:578,preview_q:'Gladiator',preview_year:2000},
+ {title:'Дени Вильнёв',items:[],dynamic:'director',director:'Denis Villeneuve',director_ru:'Дени Вильнёв',person_id:137427,preview_q:'Dune',preview_year:2021},
+ {title:'Гай Ричи',items:[],dynamic:'director',director:'Guy Ritchie',director_ru:'Гай Ричи',person_id:956,preview_q:'Snatch',preview_year:2000},
+ {title:'Роберт Родригес',items:[],dynamic:'director',director:'Robert Rodriguez',director_ru:'Роберт Родригес',person_id:2294,preview_q:'Sin City',preview_year:2005},
+ {title:'Пак Чхан-ук',items:[],dynamic:'director',director:'Park Chan-wook',director_ru:'Пак Чхан-ук',person_id:10099,preview_q:'Oldboy',preview_year:2003},
+ {title:'Пон Джун-хо',items:[],dynamic:'director',director:'Bong Joon-ho',director_ru:'Пон Джун-хо',person_id:21684,preview_q:'Parasite',preview_year:2019},
+ {title:'Гильермо дель Торо',items:[],dynamic:'director',director:'Guillermo del Toro',director_ru:'Гильермо дель Торо',person_id:10828,preview_q:'Pan\'s Labyrinth',preview_year:2006},
+ {title:'Даррен Аронофски',items:[],dynamic:'director',director:'Darren Aronofsky',director_ru:'Даррен Аронофски',person_id:6431,preview_q:'Requiem for a Dream',preview_year:2000},
+ {title:'Дэвид Линч',items:[],dynamic:'director',director:'David Lynch',director_ru:'Дэвид Линч',person_id:5602,preview_q:'Mulholland Drive',preview_year:2001}
 ]),
 C('44. Фильмы — TOP 100 сейчас',[
  {title:'🔥 TOP 100 фильмов в тренде сейчас',items:[],dynamic:'tmdb',tmdb_url:'trending/movie/week',media:'movie',pages:5,label:'MOVIES TRENDING'},
@@ -928,11 +928,11 @@ function actorCredits(g,ok,err){
 }
 
 function directorIdCache(){
- var x=Lampa.Storage.get('big_collections_director_ids_v2',{});
+ var x=Lampa.Storage.get('big_collections_director_ids_v3',{});
  return x&&typeof x==='object'?x:{};
 }
 function saveDirectorId(name,id){
- var x=directorIdCache();x[name]=id;Lampa.Storage.set('big_collections_director_ids_v2',x);
+ var x=directorIdCache();x[name]=id;Lampa.Storage.set('big_collections_director_ids_v3',x);
 }
 function resolveDirectorId(g,src,ok,err){
  if(g.person_id)return ok(g.person_id);
@@ -1477,7 +1477,7 @@ function showCategory(ci){
 function showMain(){
  var items=CATS.map(function(c,i){return{title:c.title,i:i}});
  items.push({title:'🧹 Очистить кэш карточек',clear:true});
- Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});Lampa.Storage.set('big_collections_director_ids_v2',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
+ Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});Lampa.Storage.set('big_collections_director_ids_v3',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
 }
 
 /* ===================== COLLECTIONS HOME ===================== */
@@ -1945,6 +1945,20 @@ function groupPreview(ref,done){
  if(!g)return done(fallbackPreview(ref.title||'Подборка',ref));
 
  if(g.dynamic==='director'){
+  if(g.preview_q){
+   search({q:g.preview_q,ru:g.preview_q,year:g.preview_year||0,type:'movie'},'movie',function(r){
+    if(!r)return done(fallbackPreview(ref.title||g.title,ref));
+    var x=ensureCardImage(cloneCard(r));
+    x.source='tmdb';
+    setPreviewLabel(x,ref.title||g.director_ru||g.director);
+    x.bc_action='group';
+    x.bc_ci=ref.ci;
+    x.bc_gi=ref.gi;
+    done(x);
+   });
+   return;
+  }
+
   try{
    directorCredits(g,function(all){
     var candidates=(all||[]).filter(function(m){return m&&m.poster_path});
