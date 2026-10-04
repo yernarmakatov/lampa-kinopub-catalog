@@ -1,12 +1,12 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready||typeof Lampa==='undefined')return;
-window.yernar_big_collections_ready=true;
+if(window.yernar_big_collections_ready_162||typeof Lampa==='undefined')return;
+window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.6.1';
-var COMPONENT='yernar_big_collection_list';
-var HOME_COMPONENT='yernar_big_collections_home';
-var HUB_COMPONENT='yernar_big_collections_hub';
+var VERSION='1.6.2';
+var COMPONENT='yernar_big_collection_list_v162';
+var HOME_COMPONENT='yernar_big_collections_home_v162';
+var HUB_COMPONENT='yernar_big_collections_hub_v162';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
@@ -1323,11 +1323,17 @@ function openCollectionsHome(){
 }
 
 function addMenu(){
- if($('.menu__item[data-action="big_collections"]').length)return;
+ // Replace any menu button left by an older build. This prevents an old
+ // CUB-synced plugin from winning the race and opening the legacy Select menu.
+ $('.menu__item[data-action="big_collections"]').remove();
+
  var icon='<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v4H4zM4 10h16v4H4zM4 15h16v4H4z" fill="currentColor"/></svg>';
  var item=$('<li class="menu__item selector" data-action="big_collections"><div class="menu__ico">'+icon+'</div><div class="menu__text">ПОДБОРКИ</div></li>');
  item.on('hover:enter',openCollectionsHome);
- var catalog=$('.menu .menu__list .menu__item[data-action="catalog"]');if(catalog.length)catalog.before(item);else $('.menu .menu__list').eq(0).append(item);
+
+ var catalog=$('.menu .menu__list .menu__item[data-action="catalog"]');
+ if(catalog.length)catalog.before(item);
+ else $('.menu .menu__list').eq(0).append(item);
 }
 function init(){
  Lampa.Component.add(COMPONENT,component);
