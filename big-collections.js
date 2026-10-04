@@ -1,14 +1,14 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready_182||typeof Lampa==='undefined')return;
+if(window.yernar_big_collections_ready_183||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.8.2';
-var COMPONENT='yernar_big_collection_list_v182';
-var HOME_COMPONENT='yernar_big_collections_home_v182';
-var HUB_COMPONENT='yernar_big_collections_hub_v182';
+var VERSION='1.8.3';
+var COMPONENT='yernar_big_collection_list_v183';
+var HOME_COMPONENT='yernar_big_collections_home_v183';
+var HUB_COMPONENT='yernar_big_collections_hub_v183';
 var PER_PAGE=14;
-var CACHE_KEY='yernar_big_collections_tmdb_cache_v3';
+var CACHE_KEY='yernar_big_collections_tmdb_cache_v4';
 
 function E(s){
   var a=String(s).split('|');
@@ -483,22 +483,89 @@ C('39. Корея — лучшие сериалы и фильмы',[
  ])
 ]),
 C('40. ANIME — рейтинги, тренды и жанры',[
- {title:'🔥 TOP 100 аниме сейчас',items:[],dynamic:'anilist',sort:['TRENDING_DESC','POPULARITY_DESC'],pages:5,label:'ANIME TRENDING'},
- {title:'🏆 TOP 100 аниме всех времён',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],pages:5,label:'ANIME TOP'},
- {title:'🆕 Новинки текущего сезона',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],seasonal:true,pages:5,label:'ANIME SEASON'},
- {title:'✅ Лучшие завершённые аниме',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],status:'FINISHED',pages:5,label:'ANIME FINISHED'},
- {title:'🎬 Лучшие аниме-фильмы',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],format:'MOVIE',pages:5,label:'ANIME MOVIES'},
- {title:'⚔️ Экшен / сёнен',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Action',pages:5,label:'ACTION ANIME'},
- {title:'🧠 Психология / mindfuck',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Psychological',pages:5,label:'PSYCHOLOGICAL'},
- {title:'👻 Хоррор',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Horror',pages:5,label:'HORROR ANIME'},
- {title:'❤️ Романтика',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Romance',pages:5,label:'ROMANCE ANIME'},
- {title:'😂 Комедия',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Comedy',pages:5,label:'COMEDY ANIME'},
- {title:'🚀 Sci-Fi',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Sci-Fi',pages:5,label:'SCI-FI ANIME'},
- {title:'🤖 Меха',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Mecha',pages:5,label:'MECHA'},
- {title:'🌀 Исекай',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Isekai',pages:5,label:'ISEKAI'},
- {title:'🥋 Боевые искусства',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Martial Arts',pages:5,label:'MARTIAL ARTS'},
- {title:'🕵 Детектив / Mystery',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Mystery',pages:5,label:'MYSTERY ANIME'},
- {title:'🌑 Тёмное фэнтези',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Dark Fantasy',pages:5,label:'DARK FANTASY'}
+ {title:'🔥 TOP 100 аниме сейчас',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16&sort_by=popularity.desc',media:'tv',pages:5,label:'ANIME СЕЙЧАС'},
+ {title:'🏆 TOP 100 аниме всех времён',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16&vote_count.gte=100&sort_by=vote_average.desc',media:'tv',pages:5,label:'ANIME TOP'},
+ {title:'🆕 Новинки текущего сезона',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16&first_air_date.gte=2026-10-01&first_air_date.lte=2026-12-31&sort_by=popularity.desc',media:'tv',pages:5,label:'ANIME ОСЕНЬ 2026'},
+ G('✅ Лучшие завершённые аниме',[
+  'Fullmetal Alchemist: Brotherhood|2009|tv|Стальной алхимик: Братство',
+  'Attack on Titan|2013|tv|Атака титанов',
+  'Death Note|2006|tv|Тетрадь смерти',
+  'Steins;Gate|2011|tv|Врата Штейна',
+  'Monster|2004|tv|Монстр',
+  'Cowboy Bebop|1998|tv|Ковбой Бибоп',
+  'Code Geass|2006|tv|Код Гиас',
+  'Neon Genesis Evangelion|1995|tv|Евангелион',
+  'Samurai Champloo|2004|tv|Самурай Чамплу',
+  'Erased|2016|tv|Город, в котором меня нет',
+  'Parasyte -the maxim-|2014|tv|Паразит',
+  'Your Lie in April|2014|tv|Твоя апрельская ложь',
+  'Violet Evergarden|2018|tv|Вайолет Эвергарден',
+  'Mob Psycho 100|2016|tv|Моб Психо 100',
+  'Odd Taxi|2021|tv|Такси Одда'
+ ]),
+ {title:'🎬 Лучшие аниме-фильмы',items:[],dynamic:'tmdb',tmdb_url:'discover/movie?with_origin_country=JP&with_genres=16&vote_count.gte=50&sort_by=vote_average.desc',media:'movie',pages:5,label:'ANIME MOVIES'},
+ {title:'⚔️ Экшен / сёнен',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16,10759&sort_by=popularity.desc',media:'tv',pages:5,label:'ACTION ANIME'},
+ G('🧠 Психология / mindfuck',[
+  'Death Note|2006|tv|Тетрадь смерти',
+  'Monster|2004|tv|Монстр',
+  'Steins;Gate|2011|tv|Врата Штейна',
+  'Serial Experiments Lain|1998|tv|Эксперименты Лэйн',
+  'Paranoia Agent|2004|tv|Агент паранойи',
+  'Psycho-Pass|2012|tv|Психопаспорт',
+  'Erased|2016|tv|Город, в котором меня нет',
+  'Neon Genesis Evangelion|1995|tv|Евангелион'
+ ]),
+ G('👻 Хоррор',[
+  'Another|2012|tv|Иная',
+  'Higurashi When They Cry|2006|tv|Когда плачут цикады',
+  'Shiki|2010|tv|Усопшие',
+  'Devilman Crybaby|2018|tv|Человек-дьявол: Плакса',
+  'Parasyte -the maxim-|2014|tv|Паразит',
+  'Tokyo Ghoul|2014|tv|Токийский гуль',
+  'Elfen Lied|2004|tv|Эльфийская песнь'
+ ]),
+ G('❤️ Романтика',[
+  'Your Lie in April|2014|tv|Твоя апрельская ложь',
+  'Toradora!|2008|tv|Торадора!',
+  'Kaguya-sama: Love Is War|2019|tv|Госпожа Кагуя: в любви как на войне',
+  'Horimiya|2021|tv|Хоримия',
+  'Fruits Basket|2019|tv|Корзинка фруктов',
+  'Clannad|2007|tv|Кланнад',
+  'My Dress-Up Darling|2022|tv|Эта фарфоровая кукла влюбилась'
+ ]),
+ {title:'😂 Комедия',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16,35&sort_by=popularity.desc',media:'tv',pages:5,label:'COMEDY ANIME'},
+ {title:'🚀 Sci-Fi',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16,10765&sort_by=popularity.desc',media:'tv',pages:5,label:'SCI-FI ANIME'},
+ G('🤖 Меха',[
+  'Neon Genesis Evangelion|1995|tv|Евангелион',
+  'Code Geass|2006|tv|Код Гиас',
+  'Gurren Lagann|2007|tv|Гуррен-Лаганн',
+  'Mobile Suit Gundam: The Witch from Mercury|2022|tv|Гандам: Ведьма с Меркурия',
+  '86 EIGHTY-SIX|2021|tv|Восемьдесят шесть'
+ ]),
+ G('🌀 Исекай',[
+  'Re:ZERO -Starting Life in Another World-|2016|tv|Re:Zero',
+  'Mushoku Tensei: Jobless Reincarnation|2021|tv|Реинкарнация безработного',
+  'That Time I Got Reincarnated as a Slime|2018|tv|О моём перерождении в слизь',
+  'Overlord|2015|tv|Повелитель',
+  'Konosuba: God’s Blessing on This Wonderful World!|2016|tv|Этот замечательный мир!',
+  'The Rising of the Shield Hero|2019|tv|Восхождение героя щита'
+ ]),
+ G('🥋 Боевые искусства',[
+  'Baki|2018|tv|Боец Баки',
+  'Baki Hanma|2021|tv|Баки Ханма',
+  'Kengan Ashura|2019|tv|Кэнган Асура',
+  'Hajime no Ippo|2000|tv|Первый шаг',
+  'Kenichi: The Mightiest Disciple|2006|tv|Сильнейший в истории ученик Кэнъити'
+ ]),
+ {title:'🕵 Детектив / Mystery',items:[],dynamic:'tmdb',tmdb_url:'discover/tv?with_origin_country=JP&with_genres=16,9648&sort_by=vote_average.desc&vote_count.gte=50',media:'tv',pages:5,label:'MYSTERY ANIME'},
+ G('🌑 Тёмное фэнтези',[
+  'Berserk|1997|tv|Берсерк',
+  'Attack on Titan|2013|tv|Атака титанов',
+  'Made in Abyss|2017|tv|Созданный в Бездне',
+  'Claymore|2007|tv|Клеймор',
+  'Dororo|2019|tv|Дороро',
+  'Dorohedoro|2020|tv|Дорохедоро'
+ ])
 ]),
 C('41. ANIME — большие франшизы и порядок просмотра',[
  G('Dragon Ball — основная линия',[
@@ -612,21 +679,21 @@ C('42. Казахстан 🇰🇿 — кино и сериалы',[
  ])
 ]),
 C('43. Режиссёры — фильмографии по годам',[
- {title:'Кристофер Нолан',items:[],dynamic:'director',director:'Christopher Nolan',director_ru:'Кристофер Нолан'},
- {title:'Квентин Тарантино',items:[],dynamic:'director',director:'Quentin Tarantino',director_ru:'Квентин Тарантино'},
- {title:'Дэвид Финчер',items:[],dynamic:'director',director:'David Fincher',director_ru:'Дэвид Финчер'},
- {title:'Мартин Скорсезе',items:[],dynamic:'director',director:'Martin Scorsese',director_ru:'Мартин Скорсезе'},
- {title:'Стивен Спилберг',items:[],dynamic:'director',director:'Steven Spielberg',director_ru:'Стивен Спилберг'},
- {title:'Джеймс Кэмерон',items:[],dynamic:'director',director:'James Cameron',director_ru:'Джеймс Кэмерон'},
- {title:'Ридли Скотт',items:[],dynamic:'director',director:'Ridley Scott',director_ru:'Ридли Скотт'},
- {title:'Дени Вильнёв',items:[],dynamic:'director',director:'Denis Villeneuve',director_ru:'Дени Вильнёв'},
- {title:'Гай Ричи',items:[],dynamic:'director',director:'Guy Ritchie',director_ru:'Гай Ричи'},
- {title:'Роберт Родригес',items:[],dynamic:'director',director:'Robert Rodriguez',director_ru:'Роберт Родригес'},
- {title:'Пак Чхан-ук',items:[],dynamic:'director',director:'Park Chan-wook',director_ru:'Пак Чхан-ук'},
- {title:'Пон Джун-хо',items:[],dynamic:'director',director:'Bong Joon-ho',director_ru:'Пон Джун-хо'},
- {title:'Гильермо дель Торо',items:[],dynamic:'director',director:'Guillermo del Toro',director_ru:'Гильермо дель Торо'},
- {title:'Даррен Аронофски',items:[],dynamic:'director',director:'Darren Aronofsky',director_ru:'Даррен Аронофски'},
- {title:'Дэвид Линч',items:[],dynamic:'director',director:'David Lynch',director_ru:'Дэвид Линч'}
+ {title:'Кристофер Нолан',items:[],dynamic:'director',director:'Christopher Nolan',director_ru:'Кристофер Нолан',person_id:525},
+ {title:'Квентин Тарантино',items:[],dynamic:'director',director:'Quentin Tarantino',director_ru:'Квентин Тарантино',person_id:138},
+ {title:'Дэвид Финчер',items:[],dynamic:'director',director:'David Fincher',director_ru:'Дэвид Финчер',person_id:7467},
+ {title:'Мартин Скорсезе',items:[],dynamic:'director',director:'Martin Scorsese',director_ru:'Мартин Скорсезе',person_id:1032},
+ {title:'Стивен Спилберг',items:[],dynamic:'director',director:'Steven Spielberg',director_ru:'Стивен Спилберг',person_id:488},
+ {title:'Джеймс Кэмерон',items:[],dynamic:'director',director:'James Cameron',director_ru:'Джеймс Кэмерон',person_id:2710},
+ {title:'Ридли Скотт',items:[],dynamic:'director',director:'Ridley Scott',director_ru:'Ридли Скотт',person_id:578},
+ {title:'Дени Вильнёв',items:[],dynamic:'director',director:'Denis Villeneuve',director_ru:'Дени Вильнёв',person_id:137427},
+ {title:'Гай Ричи',items:[],dynamic:'director',director:'Guy Ritchie',director_ru:'Гай Ричи',person_id:956},
+ {title:'Роберт Родригес',items:[],dynamic:'director',director:'Robert Rodriguez',director_ru:'Роберт Родригес',person_id:2294},
+ {title:'Пак Чхан-ук',items:[],dynamic:'director',director:'Park Chan-wook',director_ru:'Пак Чхан-ук',person_id:10099},
+ {title:'Пон Джун-хо',items:[],dynamic:'director',director:'Bong Joon-ho',director_ru:'Пон Джун-хо',person_id:21684},
+ {title:'Гильермо дель Торо',items:[],dynamic:'director',director:'Guillermo del Toro',director_ru:'Гильермо дель Торо',person_id:10828},
+ {title:'Даррен Аронофски',items:[],dynamic:'director',director:'Darren Aronofsky',director_ru:'Даррен Аронофски',person_id:6431},
+ {title:'Дэвид Линч',items:[],dynamic:'director',director:'David Lynch',director_ru:'Дэвид Линч',person_id:5602}
 ]),
 C('44. Фильмы — TOP 100 сейчас',[
  {title:'🔥 TOP 100 фильмов в тренде сейчас',items:[],dynamic:'tmdb',tmdb_url:'trending/movie/week',media:'movie',pages:5,label:'MOVIES TRENDING'},
@@ -670,7 +737,7 @@ function bestScored(e,res){
   var queryJoined=targets.join(' ');
   if(/ocean cut|fan edit|fan made|recap|compilation|summary|digest/.test(joined) &&
      !/ocean cut|fan edit|fan made|recap|compilation|summary|digest/.test(queryJoined)){
-    s-=180;
+    return;
   }
 
   var y=yr(r);
@@ -699,8 +766,21 @@ function search(e,kind,done){
   var src=Lampa.Api&&Lampa.Api.sources&&Lampa.Api.sources.tmdb;
   if(!src||!src.list)return done(null);
 
+  var aliases={
+   'naruto':['NARUTO -ナルト-','Наруто'],
+   'naruto shippuden':['NARUTO -ナルト- 疾風伝','Наруто: Ураганные хроники'],
+   'attack on titan':['進撃の巨人','Атака титанов'],
+   'demon slayer: kimetsu no yaiba':['鬼滅の刃','Клинок, рассекающий демонов'],
+   'jujutsu kaisen':['呪術廻戦','Магическая битва'],
+   'bleach':['BLEACH','Блич'],
+   'my hero academia':['僕のヒーローアカデミア','Моя геройская академия'],
+   'dragon ball':['ドラゴンボール'],
+   'hunter x hunter':['HUNTER×HUNTER'],
+   'neon genesis evangelion':['新世紀エヴァンゲリオン'],
+   'fullmetal alchemist: brotherhood':['鋼の錬金術師 FULLMETAL ALCHEMIST']
+  };
   var queries=[];
-  [e.q,e.ru].forEach(function(q){
+  [e.q,e.ru].concat(aliases[norm(e.q)]||[]).forEach(function(q){
    q=String(q||'').trim();
    if(q&&queries.indexOf(q)<0)queries.push(q);
   });
@@ -848,13 +928,14 @@ function actorCredits(g,ok,err){
 }
 
 function directorIdCache(){
- var x=Lampa.Storage.get('big_collections_director_ids_v1',{});
+ var x=Lampa.Storage.get('big_collections_director_ids_v2',{});
  return x&&typeof x==='object'?x:{};
 }
 function saveDirectorId(name,id){
- var x=directorIdCache();x[name]=id;Lampa.Storage.set('big_collections_director_ids_v1',x);
+ var x=directorIdCache();x[name]=id;Lampa.Storage.set('big_collections_director_ids_v2',x);
 }
 function resolveDirectorId(g,src,ok,err){
+ if(g.person_id)return ok(g.person_id);
  var cached=directorIdCache()[g.director];
  if(cached)return ok(cached);
 
@@ -1396,7 +1477,7 @@ function showCategory(ci){
 function showMain(){
  var items=CATS.map(function(c,i){return{title:c.title,i:i}});
  items.push({title:'🧹 Очистить кэш карточек',clear:true});
- Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});Lampa.Storage.set('big_collections_director_ids_v1',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
+ Lampa.Select.show({title:'БОЛЬШОЙ КАТАЛОГ ПОДБОРОК',items:items,onSelect:function(a){if(a.clear){Lampa.Storage.set(CACHE_KEY,{});Lampa.Storage.set('big_collections_actor_ids_v1',{});Lampa.Storage.set('big_collections_director_ids_v2',{});return Lampa.Noty.show('Кэш подборок очищен')}showCategory(a.i)},onBack:function(){try{Lampa.Controller.toggle('menu')}catch(e){}}});
 }
 
 /* ===================== COLLECTIONS HOME ===================== */
@@ -1947,20 +2028,28 @@ function groupPreview(ref,done){
   return;
  }
 
- var e=(g.items||[])[0];
- if(!e)return done(fallbackPreview(ref.title||g.title,ref));
+ var candidates=(g.items||[]).slice(0,6);
+ if(!candidates.length)return done(fallbackPreview(ref.title||g.title,ref));
 
- search(e,e.type==='tv'?'tv':'movie',function(r){
-  if(!r)return done(fallbackPreview(ref.title||g.title,ref));
+ var ci=0;
+ function tryNext(){
+  if(ci>=candidates.length)return done(fallbackPreview(ref.title||g.title,ref));
+  var e=candidates[ci++];
+  search(e,e.type==='tv'?'tv':'movie',function(r){
+   if(!r)return tryNext();
 
-  var x=ensureCardImage(cloneCard(r));
-  x.source='tmdb';
-  setPreviewLabel(x,ref.title||g.title);
-  x.bc_action='group';
-  x.bc_ci=ref.ci;
-  x.bc_gi=ref.gi;
-  done(x);
- });
+   var x=ensureCardImage(cloneCard(r));
+   if(!x.poster_path&&!x.poster&&!x.backdrop_path)return tryNext();
+
+   x.source='tmdb';
+   setPreviewLabel(x,ref.title||g.title);
+   x.bc_action='group';
+   x.bc_ci=ref.ci;
+   x.bc_gi=ref.gi;
+   done(x);
+  });
+ }
+ tryNext();
 }
 
 function mapPreviews(refs,done){
