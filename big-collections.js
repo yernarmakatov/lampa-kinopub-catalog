@@ -1,12 +1,12 @@
 (function(){
 'use strict';
-if(window.yernar_big_collections_ready_162||typeof Lampa==='undefined')return;
+if(window.yernar_big_collections_ready_170||typeof Lampa==='undefined')return;
 window.yernar_big_collections_ready_162=true;
 
-var VERSION='1.6.2';
-var COMPONENT='yernar_big_collection_list_v162';
-var HOME_COMPONENT='yernar_big_collections_home_v162';
-var HUB_COMPONENT='yernar_big_collections_hub_v162';
+var VERSION='1.7.0';
+var COMPONENT='yernar_big_collection_list_v170';
+var HOME_COMPONENT='yernar_big_collections_home_v170';
+var HUB_COMPONENT='yernar_big_collections_hub_v170';
 var PER_PAGE=14;
 var CACHE_KEY='yernar_big_collections_tmdb_cache_v2';
 
@@ -481,6 +481,24 @@ C('39. Корея — лучшие сериалы и фильмы',[
   'Moving|2023|tv|Движение',
   'A Shop for Killers|2024|tv|Магазин для убийц'
  ])
+]),
+C('40. ANIME — рейтинги, тренды и жанры',[
+ {title:'🔥 TOP 100 аниме сейчас',items:[],dynamic:'anilist',sort:['TRENDING_DESC','POPULARITY_DESC'],pages:5,label:'ANIME TRENDING'},
+ {title:'🏆 TOP 100 аниме всех времён',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],pages:5,label:'ANIME TOP'},
+ {title:'🆕 Новинки текущего сезона',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],seasonal:true,pages:5,label:'ANIME SEASON'},
+ {title:'✅ Лучшие завершённые аниме',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],status:'FINISHED',pages:5,label:'ANIME FINISHED'},
+ {title:'🎬 Лучшие аниме-фильмы',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],format:'MOVIE',pages:5,label:'ANIME MOVIES'},
+ {title:'⚔️ Экшен / сёнен',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Action',pages:5,label:'ACTION ANIME'},
+ {title:'🧠 Психология / mindfuck',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Psychological',pages:5,label:'PSYCHOLOGICAL'},
+ {title:'👻 Хоррор',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Horror',pages:5,label:'HORROR ANIME'},
+ {title:'❤️ Романтика',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Romance',pages:5,label:'ROMANCE ANIME'},
+ {title:'😂 Комедия',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],genre:'Comedy',pages:5,label:'COMEDY ANIME'},
+ {title:'🚀 Sci-Fi',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Sci-Fi',pages:5,label:'SCI-FI ANIME'},
+ {title:'🤖 Меха',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Mecha',pages:5,label:'MECHA'},
+ {title:'🌀 Исекай',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Isekai',pages:5,label:'ISEKAI'},
+ {title:'🥋 Боевые искусства',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Martial Arts',pages:5,label:'MARTIAL ARTS'},
+ {title:'🕵 Детектив / Mystery',items:[],dynamic:'anilist',sort:['SCORE_DESC','POPULARITY_DESC'],genre:'Mystery',pages:5,label:'MYSTERY ANIME'},
+ {title:'🌑 Тёмное фэнтези',items:[],dynamic:'anilist',sort:['POPULARITY_DESC','SCORE_DESC'],tag:'Dark Fantasy',pages:5,label:'DARK FANTASY'}
 ])
 ];
 
@@ -663,6 +681,194 @@ function tmdbDynamic(g,page,ok,err){
   },err);
  }catch(e){if(err)err()}
 }
+
+function htmlPlain(s){
+ return String(s||'')
+  .replace(/<br\s*\/?>/gi,'\n')
+  .replace(/<[^>]*>/g,'')
+  .replace(/&nbsp;/g,' ')
+  .replace(/&amp;/g,'&')
+  .replace(/&quot;/g,'"')
+  .replace(/&#39;/g,"'")
+  .trim();
+}
+function animeSeasonNow(){
+ var d=new Date(),m=d.getMonth()+1;
+ return {
+  season:m<=3?'WINTER':m<=6?'SPRING':m<=9?'SUMMER':'FALL',
+  year:d.getFullYear()
+ };
+}
+function anilistRequest(query,variables,ok,err){
+ try{
+  fetch('https://graphql.anilist.co',{
+   method:'POST',
+   headers:{'Content-Type':'application/json','Accept':'application/json'},
+   body:JSON.stringify({query:query,variables:variables||{}})
+  }).then(function(r){
+   if(!r.ok)throw new Error('AniList HTTP '+r.status);
+   return r.json();
+  }).then(function(j){
+   if(j&&j.errors&&j.errors.length)throw new Error(j.errors[0].message||'AniList error');
+   ok(j&&j.data?j.data:j);
+  }).catch(function(e){if(err)err(e)});
+ }catch(e){if(err)err(e)}
+}
+function animeTitle(m){
+ return (m.title&&(m.title.english||m.title.romaji||m.title.native))||'Без названия';
+}
+function animeToCard(m,num,g){
+ var title=animeTitle(m);
+ var p=(num<10?'00':num<100?'0':'')+num;
+ var year=m.startDate&&m.startDate.year||0;
+ var isMovie=m.format==='MOVIE';
+ var score=(parseFloat(m.averageScore||m.meanScore||0)/10)||0;
+
+ var x={
+  id:'anilist_'+m.id,
+  source:'anilist',
+  poster:(m.coverImage&&(m.coverImage.extraLarge||m.coverImage.large||m.coverImage.medium))||'',
+  backdrop_path:'',
+  poster_path:'',
+  vote_average:score,
+  overview:(g.label||'ANIME')+
+   (m.averageScore?' · AniList '+m.averageScore+'/100':'')+
+   (m.episodes?' · '+m.episodes+' эп.':'')+
+   (m.genres&&m.genres.length?' · '+m.genres.slice(0,3).join(', '):'')+
+   (m.description?'\\n\\n'+htmlPlain(m.description):''),
+  release_date:year?year+'-01-01':'',
+  first_air_date:year?year+'-01-01':'',
+  anilist_id:m.id,
+  anilist_score:m.averageScore||m.meanScore||0,
+  anilist_popularity:m.popularity||0,
+  anilist_trending:m.trending||0,
+  anilist_episodes:m.episodes||0,
+  anilist_status:m.status||'',
+  anilist_format:m.format||'',
+  anilist_genres:m.genres||[],
+  anilist_titles:[
+   m.title&&m.title.english||'',
+   m.title&&m.title.romaji||'',
+   m.title&&m.title.native||''
+  ].filter(Boolean),
+  anime_year:year,
+  anime_media:isMovie?'movie':'tv'
+ };
+
+ if(isMovie)x.title=p+' · '+title;
+ else x.name=p+' · '+title;
+
+ return x;
+}
+function anilistDynamic(g,page,ok,err){
+ var q='query($page:Int,$perPage:Int,$sort:[MediaSort],$genre:String,$tag:String,$status:MediaStatus,$format:MediaFormat,$season:MediaSeason,$seasonYear:Int){Page(page:$page,perPage:$perPage){pageInfo{currentPage lastPage hasNextPage}media(type:ANIME,isAdult:false,sort:$sort,genre:$genre,tag:$tag,status:$status,format:$format,season:$season,seasonYear:$seasonYear){id title{romaji english native}startDate{year month day}averageScore meanScore popularity trending status format episodes genres description(asHtml:false)coverImage{extraLarge large medium}}}}';
+ var season=g.seasonal?animeSeasonNow():null;
+ var vars={
+  page:page,
+  perPage:20,
+  sort:g.sort||['POPULARITY_DESC'],
+  genre:g.genre||null,
+  tag:g.tag||null,
+  status:g.status||null,
+  format:g.format||null,
+  season:season?season.season:null,
+  seasonYear:season?season.year:null
+ };
+
+ anilistRequest(q,vars,function(data){
+  var media=data&&data.Page&&data.Page.media||[];
+  var start=(page-1)*20;
+  ok({
+   secuses:true,
+   page:page,
+   total_pages:g.pages||5,
+   total_results:(g.pages||5)*20,
+   results:media.map(function(m,i){return animeToCard(m,start+i+1,g)})
+  });
+ },err);
+}
+function openAnimeCard(data){
+ var titles=(data.anilist_titles||[]).slice();
+ if(!titles.length)return Lampa.Noty.show('ANIME: не удалось определить название');
+
+ var media=data.anime_media||'tv';
+ var year=data.anime_year||0;
+ var i=0;
+
+ try{Lampa.Loading.start()}catch(e){}
+
+ function done(found){
+  try{Lampa.Loading.stop()}catch(e){}
+  if(!found)return Lampa.Noty.show('ANIME: карточка TMDB не найдена');
+  found.source='tmdb';
+  Lampa.Activity.push({
+   url:found.url,
+   component:'full',
+   id:found.id,
+   method:found.name?'tv':'movie',
+   card:found,
+   source:'tmdb'
+  });
+ }
+ function next(){
+  if(i>=titles.length)return done(null);
+  var q=titles[i++];
+  search({q:q,year:year,type:media},media,function(r){
+   if(r)return done(r);
+   next();
+  });
+ }
+ next();
+}
+function animeInfoHtml(data,reviews){
+ var title=(data.anilist_titles&&data.anilist_titles[0])||data.title||data.name||'Anime';
+ var html='<div style="padding:1em 1.2em;line-height:1.45">'+
+  '<div style="font-size:1.45em;font-weight:700;margin-bottom:.8em">'+$('<div>').text(title).html()+'</div>'+
+  '<div><b>AniList:</b> '+(data.anilist_score?data.anilist_score+'/100':'—')+'</div>'+
+  '<div><b>Популярность:</b> '+(data.anilist_popularity||'—')+'</div>'+
+  '<div><b>Эпизоды:</b> '+(data.anilist_episodes||'—')+'</div>'+
+  '<div><b>Статус:</b> '+$('<span>').text(data.anilist_status||'—').html()+'</div>'+
+  '<div><b>Формат:</b> '+$('<span>').text(data.anilist_format||'—').html()+'</div>'+
+  '<div><b>Жанры:</b> '+$('<span>').text((data.anilist_genres||[]).join(', ')||'—').html()+'</div>';
+
+ if(reviews&&reviews.length){
+  html+='<div style="font-size:1.15em;font-weight:700;margin-top:1.3em;margin-bottom:.5em">Отзывы AniList</div>';
+  reviews.forEach(function(r){
+   var summary=htmlPlain(r.summary||r.body||'');
+   if(summary.length>420)summary=summary.slice(0,420)+'…';
+   html+='<div style="padding:.75em 0;border-top:1px solid rgba(255,255,255,.12)">'+
+    '<b>'+$('<span>').text(r.user&&r.user.name||'Пользователь').html()+'</b>'+
+    (r.ratingAmount?'<span style="opacity:.6"> · 👍 '+r.rating+'/'+r.ratingAmount+'</span>':'')+
+    '<div style="margin-top:.35em;opacity:.86">'+$('<div>').text(summary).html()+'</div>'+
+   '</div>';
+  });
+ }else{
+  html+='<div style="margin-top:1em;opacity:.65">Отзывы не найдены или AniList временно не ответил.</div>';
+ }
+ html+='</div>';
+ return $(html);
+}
+function showAnimeInfo(data){
+ var q='query($mediaId:Int,$page:Int,$perPage:Int){Page(page:$page,perPage:$perPage){reviews(mediaId:$mediaId,sort:[RATING_DESC]){id summary body rating ratingAmount user{name}}}}';
+ anilistRequest(q,{mediaId:data.anilist_id,page:1,perPage:5},function(r){
+  var reviews=r&&r.Page&&r.Page.reviews||[];
+  Lampa.Modal.open({
+   title:'⭐ Рейтинг и отзывы',
+   html:animeInfoHtml(data,reviews),
+   size:'large',
+   mask:true,
+   onBack:function(){Lampa.Modal.close();try{Lampa.Controller.toggle('content')}catch(e){}}
+  });
+ },function(){
+  Lampa.Modal.open({
+   title:'⭐ Рейтинг и отзывы',
+   html:animeInfoHtml(data,[]),
+   size:'large',
+   mask:true,
+   onBack:function(){Lampa.Modal.close();try{Lampa.Controller.toggle('content')}catch(e){}}
+  });
+ });
+}
 function fetchList(o,ok,err){
  var cat=CATS[o.cat],g=cat&&cat.groups[o.group];if(!g)return err&&err();
  var page=Math.max(1,parseInt(o.page||1,10));
@@ -670,6 +876,11 @@ function fetchList(o,ok,err){
  if(g.dynamic==='tmdb'){
   if(page>(g.pages||5))return ok({results:[],page:page,total_pages:g.pages||5});
   return tmdbDynamic(g,page,ok,err);
+ }
+
+ if(g.dynamic==='anilist'){
+  if(page>(g.pages||5))return ok({results:[],page:page,total_pages:g.pages||5});
+  return anilistDynamic(g,page,ok,err);
  }
 
  if(g.dynamic==='actor'){
@@ -695,6 +906,22 @@ function component(o){
  var c=new Lampa.InteractionCategory(o);
  c.create=function(){fetchList(o,this.build.bind(this),this.empty.bind(this))};
  c.nextPageReuest=function(n,ok,er){n.cat=o.cat;n.group=o.group;fetchList(n,ok.bind(c),er.bind(c))};
+ c.cardRender=function(object,element,card){
+  if(!element||!element.anilist_id)return;
+
+  card.onEnter=function(target,data){
+   openAnimeCard(data||element);
+  };
+  card.onMenuShow=function(menu,target,data){
+   menu.unshift({
+    title:'⭐ AniList '+((data||element).anilist_score?((data||element).anilist_score+'/100'):'—')+' · рейтинг и отзывы',
+    anilist_info:true
+   });
+  };
+  card.onMenuSelect=function(a,target,data){
+   if(a&&a.anilist_info)showAnimeInfo(data||element);
+  };
+ };
  return c;
 }
 function openGroup(ci,gi){
@@ -867,6 +1094,7 @@ function hubTitle(kind){
   genres:'ЖАНРЫ И ТЕМЫ',
   series:'СЕРИАЛЫ',
   korea:'КОРЕЯ',
+  anime:'ANIME',
   horror:'ХОРРОР',
   scifi:'SCI-FI',
   action:'ЭКШЕН'
@@ -890,6 +1118,7 @@ var HOME_TILES=[
  {id:'genres',ico:'🎬',title:'Жанры',sub:'Триллеры, sci-fi, выживание'},
  {id:'series',ico:'📺',title:'Сериалы',sub:'Саги и мини-сериалы'},
  {id:'korea',ico:'🇰🇷',title:'Корея',sub:'K-Drama и корейское кино'},
+ {id:'anime',ico:'⛩️',title:'ANIME',sub:'TOP 100, жанры, отзывы'},
  {id:'horror',ico:'👻',title:'Хоррор',sub:'Культовые вселенные'},
  {id:'scifi',ico:'🚀',title:'Sci-Fi',sub:'Космос, время, ИИ'},
  {id:'action',ico:'⚡',title:'Экшен',sub:'Боевики и агенты'},
@@ -1042,6 +1271,29 @@ function hubRowSpecs(kind){
   ])}
  ];
 
+ if(kind==='anime') return [
+  {title:'TOP и новинки',refs:cleanRefs([
+   groupRef('40.','🔥 TOP 100 аниме сейчас','TOP 100 сейчас'),
+   groupRef('40.','🏆 TOP 100 аниме всех времён','TOP 100 всех времён'),
+   groupRef('40.','🆕 Новинки','Новинки сезона'),
+   groupRef('40.','✅ Лучшие завершённые','Завершённые'),
+   groupRef('40.','🎬 Лучшие аниме-фильмы','Аниме-фильмы')
+  ])},
+  {title:'По жанрам',refs:cleanRefs([
+   groupRef('40.','⚔️ Экшен','Экшен / сёнен'),
+   groupRef('40.','🧠 Психология','Психология / mindfuck'),
+   groupRef('40.','👻 Хоррор','Хоррор'),
+   groupRef('40.','❤️ Романтика','Романтика'),
+   groupRef('40.','😂 Комедия','Комедия'),
+   groupRef('40.','🚀 Sci-Fi','Sci-Fi'),
+   groupRef('40.','🤖 Меха','Меха'),
+   groupRef('40.','🌀 Исекай','Исекай'),
+   groupRef('40.','🥋 Боевые искусства','Боевые искусства'),
+   groupRef('40.','🕵 Детектив','Mystery'),
+   groupRef('40.','🌑 Тёмное','Тёмное фэнтези')
+  ])}
+ ];
+
  if(kind==='horror') return [
   {title:'Хоррор-вселенные',refs:horrorRefs()},
   {title:'Зомби и заражение',refs:refsFromCategory(1)}
@@ -1124,6 +1376,25 @@ function groupPreview(ref,done){
  if(!g)return done(fallbackPreview(ref.title||'Подборка',ref));
 
  if(g.dynamic==='actor')return actorPreview(ref,g,done);
+
+ if(g.dynamic==='anilist'){
+  try{
+   var q='query($page:Int,$perPage:Int,$sort:[MediaSort],$genre:String,$tag:String,$status:MediaStatus,$format:MediaFormat,$season:MediaSeason,$seasonYear:Int){Page(page:$page,perPage:$perPage){media(type:ANIME,isAdult:false,sort:$sort,genre:$genre,tag:$tag,status:$status,format:$format,season:$season,seasonYear:$seasonYear){id title{romaji english native}startDate{year}averageScore meanScore popularity trending status format episodes genres description(asHtml:false)coverImage{extraLarge large medium}}}}';
+   var season=g.seasonal?animeSeasonNow():null;
+   anilistRequest(q,{
+    page:1,perPage:1,sort:g.sort||['POPULARITY_DESC'],genre:g.genre||null,tag:g.tag||null,
+    status:g.status||null,format:g.format||null,season:season?season.season:null,seasonYear:season?season.year:null
+   },function(d){
+    var m=d&&d.Page&&d.Page.media&&d.Page.media[0];
+    if(!m)return done(fallbackPreview(ref.title||g.title,ref));
+    var x=animeToCard(m,1,g);
+    setPreviewLabel(x,ref.title||g.title);
+    x.bc_action='group';x.bc_ci=ref.ci;x.bc_gi=ref.gi;
+    done(x);
+   },function(){done(fallbackPreview(ref.title||g.title,ref))});
+  }catch(e){done(fallbackPreview(ref.title||g.title,ref))}
+  return;
+ }
 
  if(g.dynamic==='tmdb'){
   try{
@@ -1210,6 +1481,7 @@ function hubPreviewRef(id){
   genres:groupRef('3.','Петли времени','Жанры'),
   series:groupRef('38.','🔥 TOP 100 сериалов','Сериалы'),
   korea:groupRef('39.','🇰🇷 K-Drama — популярные сейчас','Корея'),
+  anime:groupRef('40.','🔥 TOP 100 аниме сейчас','ANIME'),
   horror:groupRef('19.','Заклятие','Хоррор'),
   scifi:groupRef('3.','Бегущий по лезвию','Sci-Fi'),
   action:groupRef('16.','Миссия','Экшен'),
@@ -1252,6 +1524,12 @@ function homeRowSpecs(){
    groupRef('38.','🔥 TOP 100 сериалов','TOP 100 сериалов сейчас'),
    groupRef('37.','FBI Universe','FBI Universe'),
    groupRef('39.','🇰🇷 K-Drama — популярные сейчас','K-Drama сейчас')
+  ])},
+  {title:'ANIME сейчас',refs:cleanRefs([
+   groupRef('40.','🔥 TOP 100 аниме сейчас','TOP 100 аниме сейчас'),
+   groupRef('40.','🏆 TOP 100 аниме всех времён','TOP 100 всех времён'),
+   groupRef('40.','🆕 Новинки','Новинки сезона'),
+   groupRef('40.','🎬 Лучшие аниме-фильмы','Аниме-фильмы')
   ])},
   {title:'На одни выходные',refs:HOME_SHELVES[4].items}
  ];
